@@ -31,18 +31,18 @@ html, body, #root {
    ============================================ */
 
 :root {
-  --color-outer-bg: #e7dab8;
+  /* --color-outer-bg: #e7dab8; */
   --color-outer-bg-deep: #d9c79c;
   --color-cool-bg: #dde9e4;
   --color-cool-bg-deep: #c6dad2;
   --color-card-bg: #faf5e8;
-  --color-card-border: #b29463;
+  /* --color-card-border: #b29463; */
   --color-text-dark: #37291c;
   --color-text-muted: #83704c;
-  --color-accent: #414f30;
+  --color-accent: #0A1416;
   --color-accent-text: #f6efdd;
   --color-quote-mark: #c7a877;
-  --color-hill: #d8c79b;
+  /* --color-hill: #d8c79b; */
   --color-sage: #cfe0d8;
   --color-sage-dark: #a9c2b6;
 }
@@ -87,7 +87,7 @@ html, body, #root {
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(232, 29, 29, 0.1);
 }
 
 .frame.warm-tone {
@@ -115,6 +115,41 @@ html, body, #root {
   height: 90px;
 }
 
+
+
+
+
+.intro-quote{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  margin-bottom:28px;
+
+}
+
+.intro-quote-icon{
+  font-size:48px;
+  color:#83704c;
+  opacity:.35;
+  line-height:1;
+}
+
+.intro-quote-text{
+  margin:0;
+  text-align:center;
+  font-size:1rem;
+  line-height:1.7;
+  color:#6f6246;
+  font-style:italic;
+  max-width:280px;
+   background:var(--color-card-bg);
+
+}
+
+
+
+
 /* ============================================
    PROGRESS BAR
    ============================================ */
@@ -138,14 +173,11 @@ html, body, #root {
   background: #fff;
   border-radius: 999px;
   width: 0%;
+  transition: width 80ms linear;
 }
 
 .progress-bar-fill.paused {
-  transition: none;
-}
-
-.progress-bar-fill.playing {
-  transition: width 80ms linear;
+  transition: none !important;
 }
 
 /* ============================================
@@ -237,10 +269,12 @@ p {
 
 .sentence-content {
   text-align: right;
-  flex: 1;
+  flex: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 8px;
+  min-height: 100px;
 }
 
 .quote-text {
@@ -249,8 +283,8 @@ p {
   font-size: 18px;
   line-height: 1.7;
   color: var(--color-text-dark);
-  margin-bottom: 12px;
   margin: 0;
+  padding: 0;
 }
 
 .body-text {
@@ -260,6 +294,7 @@ p {
   line-height: 1.7;
   color: var(--color-text-muted);
   margin: 0;
+  padding: 0;
 }
 
 /* ============================================
@@ -576,3 +611,6 @@ button:focus {
     transition: none;
   }
 }
+
+
+

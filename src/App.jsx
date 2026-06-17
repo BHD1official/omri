@@ -18,7 +18,7 @@ const SENTENCE_SCREENS = [
   {
     id: 'first',
     label: 'משפט ראשון',
-    quote: 'הוא כחגידח חיגח גחשידכקלח ןוקכןדו חדש ויגד חחדו וקחישד צריך.',
+    quote: 'הוא לא רץ אל הסכנה כדי להיות גיבור. הוא רץ כי ידע שמישהו צריך.',
     body: 'מי שהכיר אותו מספר שזה היה הוא בדיוק כך — בלי הרבה מילים, רק מעשים. כשהיה צריך לקום, הוא קם ראשון.',
     buttonLabel: 'המשך'
   },
@@ -145,10 +145,10 @@ function HillSVG() {
       className="hill-svg"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
+      {/* <path
         d="M0 55 C50 20 100 70 160 38 C220 8 280 60 360 28 L360 90 L0 90Z"
         fill="#d8c79b"
-      />
+      /> */}
     </svg>
   );
 }
@@ -170,17 +170,29 @@ function Frame({ children, tone = 'warm' }) {
 
 function IntroScreen({ onStart }) {
   return (
-    <Frame>
-      <div className="inner-card">
-        <h2>הסיפור של אומרי</h2>
-        <p className="intro-subtitle">
-          לחצו להתחלה כדי להתחיל את המסע
-        </p>
-      </div>
+<div className="inner-card">
+
+
+  <h2>הסיפור של אומרי</h2>
+
+
+
+  <div className="intro-quote">
+    <span className="intro-quote-icon">❝</span>
+
+    <p className="intro-quote-text">
+      האדם נמדד לא רק בדרכו, אלא גם בדרך שהשאיר לאחרים.
+      <Cursor />
+    </p>
+  </div>
+
+
+
       <button className="btn-primary" onClick={onStart}>
-        להתחיל
-      </button>
-    </Frame>
+    לחצו להתחלה כדי להתחיל את המסע
+  </button>
+
+</div>
   );
 }
 
@@ -197,19 +209,18 @@ function SentenceFlow({ onFinish }) {
   const [progress, setProgress] = useState(0);
 
   const timeoutRef = useRef(null);
-  const positionRef = useRef({ seg: 0, char: 0 });
 
   const current = SENTENCE_SCREENS[screenIndex];
   const segments = [current.quote, current.body];
-
   const totalChars = segments.reduce((sum, text) => sum + text.length, 0);
 
-  const step = useCallback(
+  // Main typing function
+  const typeNext = useCallback(
     (si, ci) => {
-      if (paused) {
-        return;
-      }
+      // If paused, stop here
+      if (paused) return;
 
+      // All segments done
       if (si >= segments.length) {
         setDone(true);
         setProgress(100);
@@ -218,66 +229,61 @@ function SentenceFlow({ onFinish }) {
 
       const text = segments[si];
 
+      // Current segment finished, move to next
       if (ci > text.length) {
         timeoutRef.current = setTimeout(() => {
-          setSegIndex(si + 1);
-          setCharIndex(0);
-          step(si + 1, 0);
+          typeNext(si + 1, 0);
         }, 400);
         return;
       }
 
+      // Update current position
       setSegIndex(si);
       setCharIndex(ci);
 
-      positionRef.current = {
-        seg: si,
-        char: ci
-      };
-
-      const typedChars =
-        segments.slice(0, si).reduce((sum, t) => sum + t.length, 0) + ci;
-
+      // Calculate progress
+      const typedChars = segments.slice(0, si).reduce((sum, t) => sum + t.length, 0) + ci;
       setProgress((typedChars / totalChars) * 100);
 
+      // Schedule next character
       const ch = text[ci];
       const delay =
         ch === ' '
           ? TYPING_SPEED.space
           : TYPING_SPEED.base + Math.random() * TYPING_SPEED.jitter;
 
-      timeoutRef.current = setTimeout(() => step(si, ci + 1), delay);
+      timeoutRef.current = setTimeout(() => {
+        typeNext(si, ci + 1);
+      }, delay);
     },
     [paused, segments, totalChars]
   );
 
+  // Start typing when screen changes
   useEffect(() => {
     setSegIndex(0);
     setCharIndex(0);
     setDone(false);
     setProgress(0);
 
-    positionRef.current = { seg: 0, char: 0 };
-
     clearTimeout(timeoutRef.current);
-    step(0, 0);
+    typeNext(0, 0);
 
-    return () => {
-      clearTimeout(timeoutRef.current);
-    };
-  }, [screenIndex, step]);
+    return () => clearTimeout(timeoutRef.current);
+  }, [screenIndex]);
 
+  // Resume typing when unpaused
   useEffect(() => {
-    if (!paused) {
-      const pos = positionRef.current;
+    if (!paused && !done) {
       clearTimeout(timeoutRef.current);
-      step(pos.seg, pos.char);
+      typeNext(segIndex, charIndex);
     }
-  }, [paused, step]);
+  }, [paused]);
 
+  // Move to next screen when done
   useEffect(() => {
     if (done) {
-      const t = setTimeout(() => {
+      const timer = setTimeout(() => {
         if (screenIndex < SENTENCE_SCREENS.length - 1) {
           setScreenIndex((i) => i + 1);
         } else {
@@ -285,33 +291,33 @@ function SentenceFlow({ onFinish }) {
         }
       }, 1200);
 
-      return () => clearTimeout(t);
+      return () => clearTimeout(timer);
     }
   }, [done, screenIndex, onFinish]);
 
-  const pauseStory = () => {
+  const handleMouseDown = () => {
     setPaused(true);
     clearTimeout(timeoutRef.current);
   };
 
-  const resumeStory = () => {
+  const handleMouseUp = () => {
     setPaused(false);
   };
 
   return (
     <div
       className="sentence-flow-wrapper"
-      onMouseDown={pauseStory}
-      onMouseUp={resumeStory}
-      onMouseLeave={resumeStory}
-      onTouchStart={pauseStory}
-      onTouchEnd={resumeStory}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
     >
       <Frame>
+        {/* Progress Bars */}
         <div className="progress-bar-container">
           {SENTENCE_SCREENS.map((_, i) => {
             let width = 0;
-
             if (i < screenIndex) {
               width = 100;
             } else if (i === screenIndex) {
@@ -329,12 +335,13 @@ function SentenceFlow({ onFinish }) {
           })}
         </div>
 
+        {/* Quote Card */}
         <div className="inner-card">
           <span className="quote-mark">"</span>
 
           <div className="sentence-content">
             {segments.map((text, i) => {
-              let display;
+              let display = '';
 
               if (done || i < segIndex) {
                 display = text;
