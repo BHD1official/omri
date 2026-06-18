@@ -178,9 +178,10 @@ function IntroScreen({ onStart }) {
 
 
   <div className="intro-quote">
-    <span className="intro-quote-icon">❝</span>
 
     <p className="intro-quote-text">
+          <span className="intro-quote-icon">❝</span>
+
       האדם נמדד לא רק בדרכו, אלא גם בדרך שהשאיר לאחרים.
       <Cursor />
     </p>

@@ -132,7 +132,12 @@ html, body, #root {
   font-size:48px;
   color:#83704c;
   opacity:.35;
-  line-height:1;
+  line-height:0;
+  top: -2vh;
+    position: relative;
+      align-self: center;
+      display: block;
+
 }
 
 .intro-quote-text{
@@ -143,10 +148,15 @@ html, body, #root {
   color:#6f6246;
   font-style:italic;
   max-width:280px;
-   background:var(--color-card-bg);
+  background:var(--color-card-bg);
+  border: 1.5px solid var(--color-card-border);
+  border-radius: 14px;
+  padding: 58px 20px;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
 
 }
-
 
 
 
@@ -185,7 +195,7 @@ html, body, #root {
    ============================================ */
 
 .inner-card {
-  background: var(--color-card-bg);
+  /* background: var(--color-card-bg); */
   border: 1.5px solid var(--color-card-border);
   border-radius: 14px;
   padding: 24px 20px;
@@ -334,6 +344,11 @@ p {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+/* .btn-primary:hover {
+  background: #986854;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px #986854;
+} */
 
 .btn-primary:active {
   transform: translateY(0);
