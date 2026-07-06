@@ -1,509 +1,286 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import './App.css';
-import bgImage from './assets/background.png';
-import {
-  User,
-  Shield,
-  Compass,
-  Users,
-  Scale,
-  ScrollText
-} from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import "./App.css";
 
-/* ============================================
-   CONSTANTS & DATA
-   ============================================ */
+// ===== תמונות (תיקיית assets) =====
+import bgImg from "./assets/images/background.png";
+import profileImgIntro from "./assets/images/profile-intro.png";
+import decorImg from "./assets/images/decor.png";
+import profileImgAbout from "./assets/images/profile-about.png";
 
-const SENTENCE_SCREENS = [
-  {
-    id: 'first',
-    label: 'משפט ראשון',
-    quote: 'הוא לא רץ אל הסכנה כדי להיות גיבור. הוא רץ כי ידע שמישהו צריך.',
-    body: 'מי שהכיר אותו מספר שזה היה הוא בדיוק כך — בלי הרבה מילים, רק מעשים. כשהיה צריך לקום, הוא קם ראשון.',
-    buttonLabel: 'המשך'
-  },
-  {
-    id: 'second',
-    label: 'משפט שני',
-    quote: 'הבית שלו היה בכל מקום שבו חבריו צעדו לצידו.',
-    body: 'בקסדה ובמדים מצא את המשפחה השנייה שלו. הוא ידע להקשיב ולתת לאחרים להוביל.',
-    buttonLabel: 'המשך'
-  },
-  {
-    id: 'third',
-    label: 'משפט שלישי',
-    quote: 'הוא נפל בשדה הקרב, אך החיוך שלו נשאר איתנו.',
-    body: 'כל מי שפגש בו זוכר משהו אחר — אבל כולם זוכרים את אותה תחושה.',
-    buttonLabel: 'להמשך'
-  }
+// ===== תוכן המשפטים =====
+const SLIDE1_TEXTS = ["אנחנו כותבים את ההיסטוריה של עם ישראל , איזו זכות."];
+const SLIDE2_TEXTS = [
+  "על המפקד להיות אומן בפרטים הקטנים ",
+  "קפדנות בפרטים הקטנים והמעצבנים מייצרת ביטחון ושקט",
+];
+const SLIDE3_TEXTS = [
+  '"בזכות מסירות נפשן,בזכות הלכתן לפני המחנה , בעוז, עוצמה,וודאות  מוחלטת בטוב ההולך ומופיע ומתוך כך האומץ  והגבורה למסור את נפשם"',
 ];
 
-const TYPING_SPEED = {
-  base: 120,
-  jitter: 80,
-  space: 16
-};
+// ===== הגדרות =====
+const TYPING_SPEED = 120;
 
-const ABOUT_CARDS = [
-  {
-    id: 'a1',
-    text: '[כאן יבוא טקסט קצר על מי שהיה — מאיפה הוא ומה זוכרים ממנו]'
-  },
-  {
-    id: 'a2',
-    text: '[כאן יבוא פרק על השירות הצבאי והדרך שעבר]'
-  },
-  {
-    id: 'a3',
-    text: '[כאן יבוא פרק על האישיות והערכים שלו]'
-  }
-];
-
-const TOPICS = [
-  {
-    id: 1,
-    num: '01',
-    label: 'תפקיד',
-    icon: Compass
-  },
-  {
-    id: 2,
-    num: '02',
-    label: 'תפקידים מבצעיים',
-    icon: Shield
-  },
-  {
-    id: 3,
-    num: '03',
-    label: 'ערכים וחברות',
-    icon: Users
-  },
-  {
-    id: 4,
-    num: '04',
-    label: 'מערכות ופיקוד',
-    icon: Scale
-  },
-  {
-    id: 5,
-    num: '05',
-    label: 'תיעוד אישי',
-    icon: ScrollText
-  }
-];
-
-const SUBTOPICS_BY_ID = {
-  1: [
-    'תיאור התפקיד',
-    'תחומי אחריות',
-    'הכשרה והסמכה'
-  ],
-  2: [
-    'משימות מרכזיות',
-    'אזורי פעילות',
-    'שיתופי פעולה'
-  ],
-  3: [
-    'טוהר הנשק',
-    'רעות בשדה הקרב',
-    'אמון בין לוחמים'
-  ],
-  4: [
-    'מבנה הפיקוד',
-    'מערכי תקשורת',
-    'תהליכי החלטה'
-  ],
-  5: [
-    'יומן אישי',
-    'מכתבים ותמונות',
-    'זכרונות מהבית'
-  ]
-};
-
-/* ============================================
-   SHARED COMPONENTS
-   ============================================ */
-
-function Cursor() {
-  return <span className="cursor" />;
-}
-
-function Avatar({ size = 96 }) {
-  const sizeClass = size === 85 ? 'avatar-small' : '';
-  
-  return (
-    <div className={`avatar ${sizeClass}`}>
-      <User size={size * 0.45} color="#83704c" />
-    </div>
-  );
-}
-
-function HillSVG() {
-  return (
-    <svg
-      viewBox="0 0 360 90"
-      className="hill-svg"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* <path
-        d="M0 55 C50 20 100 70 160 38 C220 8 280 60 360 28 L360 90 L0 90Z"
-        fill="#d8c79b"
-      /> */}
-    </svg>
-  );
-}
-
-function Frame({ children, tone = 'warm' }) {
-  const toneClass = tone === 'cool' ? 'cool-tone' : 'warm-tone';
-
-  return (
-    <div className={`frame ${toneClass}`}>
-      {tone === 'warm' && <HillSVG />}
-      <div className="frame-content">{children}</div>
-    </div>
-  );
-}
-
-/* ============================================
-   INTRO SCREEN
-   ============================================ */
-
-function IntroScreen({ onStart }) {
-  return (
-<div className="inner-card">
-
-
-  <h2>הסיפור של אומרי</h2>
-
-
-
-  <div className="intro-quote">
-
-    <p className="intro-quote-text">
-          <span className="intro-quote-icon">❝</span>
-
-      האדם נמדד לא רק בדרכו, אלא גם בדרך שהשאיר לאחרים.
-      <Cursor />
-    </p>
-  </div>
-
-
-
-      <button className="btn-primary" onClick={onStart}>
-    לחצו להתחלה כדי להתחיל את המסע
-  </button>
-
-</div>
-  );
-}
-
-/* ============================================
-   SENTENCE FLOW SCREEN
-   ============================================ */
-
-function SentenceFlow({ onFinish }) {
-  const [screenIndex, setScreenIndex] = useState(0);
-  const [segIndex, setSegIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [done, setDone] = useState(false);
+// ===== Hook: אפקט טייפרייטר =====
+function useTypewriter(texts, active) {
+  const [totalTyped, setTotalTyped] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef(null);
 
-  const timeoutRef = useRef(null);
+  const totalChars = texts.reduce((sum, t) => sum + t.length, 0);
 
-  const current = SENTENCE_SCREENS[screenIndex];
-  const segments = [current.quote, current.body];
-  const totalChars = segments.reduce((sum, text) => sum + text.length, 0);
-
-  // Main typing function
-  const typeNext = useCallback(
-    (si, ci) => {
-      // If paused, stop here
-      if (paused) return;
-
-      // All segments done
-      if (si >= segments.length) {
-        setDone(true);
-        setProgress(100);
-        return;
-      }
-
-      const text = segments[si];
-
-      // Current segment finished, move to next
-      if (ci > text.length) {
-        timeoutRef.current = setTimeout(() => {
-          typeNext(si + 1, 0);
-        }, 400);
-        return;
-      }
-
-      // Update current position
-      setSegIndex(si);
-      setCharIndex(ci);
-
-      // Calculate progress
-      const typedChars = segments.slice(0, si).reduce((sum, t) => sum + t.length, 0) + ci;
-      setProgress((typedChars / totalChars) * 100);
-
-      // Schedule next character
-      const ch = text[ci];
-      const delay =
-        ch === ' '
-          ? TYPING_SPEED.space
-          : TYPING_SPEED.base + Math.random() * TYPING_SPEED.jitter;
-
-      timeoutRef.current = setTimeout(() => {
-        typeNext(si, ci + 1);
-      }, delay);
-    },
-    [paused, segments, totalChars]
-  );
-
-  // Start typing when screen changes
   useEffect(() => {
-    setSegIndex(0);
-    setCharIndex(0);
-    setDone(false);
-    setProgress(0);
+    if (!active || paused) return;
 
-    clearTimeout(timeoutRef.current);
-    typeNext(0, 0);
-
-    return () => clearTimeout(timeoutRef.current);
-  }, [screenIndex]);
-
-  // Resume typing when unpaused
-  useEffect(() => {
-    if (!paused && !done) {
-      clearTimeout(timeoutRef.current);
-      typeNext(segIndex, charIndex);
-    }
-  }, [paused]);
-
-  // Move to next screen when done
-  useEffect(() => {
-    if (done) {
-      const timer = setTimeout(() => {
-        if (screenIndex < SENTENCE_SCREENS.length - 1) {
-          setScreenIndex((i) => i + 1);
-        } else {
-          onFinish();
+    intervalRef.current = setInterval(() => {
+      setTotalTyped((prev) => {
+        if (prev >= totalChars) {
+          clearInterval(intervalRef.current);
+          return prev;
         }
-      }, 1200);
+        return prev + 1;
+      });
+    }, TYPING_SPEED);
 
-      return () => clearTimeout(timer);
-    }
-  }, [done, screenIndex, onFinish]);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [active, paused, totalChars]);
 
-  const handleMouseDown = () => {
-    setPaused(true);
-    clearTimeout(timeoutRef.current);
+  let remaining = totalTyped;
+
+  const displayed = texts.map((t) => {
+    const take = Math.min(remaining, t.length);
+    remaining -= take;
+    return t.slice(0, take);
+  });
+
+  return {
+    displayed,
+    progress: totalChars ? totalTyped / totalChars : 0,
+    done: totalTyped >= totalChars,
+    pause: () => setPaused(true),
+    resume: () => setPaused(false),
   };
+}
 
-  const handleMouseUp = () => {
-    setPaused(false);
-  };
-
+// ===== רכיב: פס התקדמות =====
+function ProgressBar({ progress, current }) {
   return (
-    <div
-      className="sentence-flow-wrapper"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onTouchStart={handleMouseDown}
-      onTouchEnd={handleMouseUp}
-    >
-      <Frame>
-        {/* Progress Bars */}
-        <div className="progress-bar-container">
-          {SENTENCE_SCREENS.map((_, i) => {
-            let width = 0;
-            if (i < screenIndex) {
-              width = 100;
-            } else if (i === screenIndex) {
-              width = progress;
-            }
-
-            return (
-              <div key={i} className="progress-bar">
-                <div
-                  className={`progress-bar-fill ${paused ? 'paused' : 'playing'}`}
-                  style={{ width: `${width}%` }}
-                />
-              </div>
-            );
-          })}
+    <div className="progress-bar-wrap" dir="rtl">
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="progress-bar-track">
+          <div
+            className="progress-bar-fill"
+            style={{
+              width:
+                i < current ? "100%" : i === current ? `${progress * 100}%` : "0%",
+            }}
+          />
         </div>
-
-        {/* Quote Card */}
-        <div className="inner-card">
-          <span className="quote-mark">"</span>
-
-          <div className="sentence-content">
-            {segments.map((text, i) => {
-              let display = '';
-
-              if (done || i < segIndex) {
-                display = text;
-              } else if (i === segIndex) {
-                display = text.slice(0, charIndex);
-              } else {
-                return null;
-              }
-
-              return (
-                <p key={i} className={i === 0 ? 'quote-text' : 'body-text'}>
-                  {display}
-                  {!done && i === segIndex && <Cursor />}
-                </p>
-              );
-            })}
-          </div>
-        </div>
-      </Frame>
+      ))}
     </div>
   );
 }
 
-/* ============================================
-   ABOUT SCREEN
-   ============================================ */
-
-function AboutScreen({ onFinish }) {
-  const [index, setIndex] = useState(0);
-  const card = ABOUT_CARDS[index];
-
-  function next() {
-    if (index < ABOUT_CARDS.length - 1) {
-      setIndex((i) => i + 1);
-    } else {
-      onFinish();
-    }
-  }
-
+// ===== רכיב: תמונת עיצוב תחתונה =====
+function BgDecor() {
   return (
-    <Frame>
-      <div className="inner-card">
-        <span className="about-label">על אומרי</span>
-        <Avatar size={96} />
-        <h3 className="about-name">רס"ן אומרי חי בן משה</h3>
-        <p className="about-description">{card.text}</p>
-      </div>
-
-      <button className="btn-primary" onClick={next}>
-        {index === ABOUT_CARDS.length - 1 ? 'להמשך' : 'המשך'}
-      </button>
-    </Frame>
+    <div className="bg-decor">
+      <img alt="" className="bg-decor-img" src={decorImg} />
+    </div>
   );
 }
 
-/* ============================================
-   TOPICS SCREEN
-   ============================================ */
+// ===== רכיב: כרטיס ציטוט =====
+function QuoteCard({ top, height }) {
+  return <div className="quote-card" style={{ top, height }} />;
+}
 
-function TopicButton({ topic, onClick }) {
-  const Icon = topic.icon;
-
+// ===== רכיב: מרכאה פותחת =====
+function OpeningQuote({ top }) {
   return (
-    <button className="btn-topic" onClick={onClick}>
-      <Icon size={20} />
-      <span>{topic.label}</span>
+    <p className="opening-quote" style={{ top }} dir="auto">
+      "
+    </p>
+  );
+}
+
+// ===== רכיב: כפתור המשך =====
+function NextButton({ onClick, disabled = false }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className="next-btn"
+      style={{ opacity: disabled ? 0.4 : 1 }}
+    >
+      <span className="next-btn-text">המשך !</span>
     </button>
   );
 }
 
-function TopicsScreen({ onSelect }) {
-  return (
-    <Frame tone="cool">
-      <Avatar size={85} />
-      <h2 className="topics-title">להכיר אותו לעומק</h2>
-
-      <div className="topics-grid">
-        {TOPICS.map((topic) => (
-          <TopicButton
-            key={topic.id}
-            topic={topic}
-            onClick={() => onSelect(topic)}
-          />
-        ))}
-      </div>
-    </Frame>
-  );
+// ===== רכיב: רקע =====
+function Bg() {
+  return <img alt="" className="bg-fixed" src={bgImg} />;
 }
 
-/* ============================================
-   SUBTOPICS SCREEN
-   ============================================ */
-
-function SubtopicsScreen({ topic, onBack }) {
-  const Icon = topic.icon;
-  const items = SUBTOPICS_BY_ID[topic.id] || [];
-
+// ===== מסך: פתיח =====
+function IntroScreen({ onStart }) {
   return (
-    <Frame>
-      <button className="btn-back" onClick={onBack}>
-        ←
+    <div className="screen">
+      <Bg />
+      <div className="intro-profile-wrap">
+        <img alt='רס"ן אומרי חי בן משה' className="intro-profile-img" src={profileImgIntro} />
+      </div>
+      <div className="intro-name" dir="auto">
+        <p>רס"ן אומרי חי</p>
+        <p>בן משה הי"ד</p>
+      </div>
+      <div className="intro-dates" dir="auto">
+        <p>נפל בכ"ה באלול תשפ"ה</p>
+        <p>18.9.25</p>
+      </div>
+      <QuoteCard top={481} height={210} />
+      <OpeningQuote top={492} />
+      <p className="intro-quote-text" dir="auto">
+        מבט אמוני , ריאלי ואופטימי
+      </p>
+      <button onClick={onStart} className="intro-start-btn">
+        <span className="next-btn-text">להתחיל !</span>
       </button>
-
-      <h3>{topic.label}</h3>
-
-      <div className="subtopics-list">
-        {items.map((item) => (
-          <div key={item} className="subtopic-item">
-            <Icon size={18} />
-            <span>{item}</span>
-          </div>
-        ))}
-      </div>
-    </Frame>
+    </div>
   );
 }
 
-/* ============================================
-   MAIN APP COMPONENT
-   ============================================ */
+// ===== מסך: משפט ראשון =====
+function Slide1({ onNext }) {
+  const { displayed, progress, done, pause, resume } = useTypewriter(SLIDE1_TEXTS, true);
+  return (
+    <div
+      className="screen"
+      onMouseDown={pause}
+      onMouseUp={resume}
+      onMouseLeave={resume}
+      onTouchStart={pause}
+      onTouchEnd={resume}
+    >
+      <Bg />
+      <ProgressBar progress={progress} current={0} />
+      <QuoteCard top={148} height={284} />
+      <OpeningQuote top={178.28} />
+      <p className="slide-text" style={{ top: 256 }} dir="auto">
+        {displayed[0]}
+        <span className={`typing-cursor ${done ? "cursor-hidden" : "cursor-blink"}`} />
+      </p>
+      <BgDecor />
+      {done && (
+        <div className="next-btn-wrap" style={{ top: 480 }}>
+          <NextButton onClick={onNext} />
+        </div>
+      )}
+    </div>
+  );
+}
 
-export default function App() {
-  const [mainScreen, setMainScreen] = useState('intro');
-  const [selectedTopic, setSelectedTopic] = useState(null);
+// ===== מסך: משפט שני =====
+function Slide2({ onNext }) {
+  const { displayed, progress, done, pause, resume } = useTypewriter(SLIDE2_TEXTS, true);
 
   return (
     <div
-      className="app-container"
-      style={{
-        backgroundImage: `url(${bgImage})`
-      }}
+      className="screen"
+      onMouseDown={pause}
+      onMouseUp={resume}
+      onMouseLeave={resume}
+      onTouchStart={pause}
+      onTouchEnd={resume}
     >
-      <div className="viewport">
-        {mainScreen === 'intro' && (
-          <IntroScreen onStart={() => setMainScreen('sentence')} />
+      <Bg />
+      <ProgressBar progress={progress} current={1} />
+      <QuoteCard top={148} height={251} />
+      <OpeningQuote top={178.28} />
+      <p className="slide-text" style={{ top: 239 }} dir="auto">
+        {displayed[0]}
+        {displayed[0].length < SLIDE2_TEXTS[0].length && (
+          <span className="typing-cursor cursor-blink" />
         )}
+      </p>
+      <QuoteCard top={437} height={281} />
+      <OpeningQuote top={467.28} />
+      <p className="slide-text" style={{ top: 524 }} dir="auto">
+        {displayed[1]}
+        {displayed[1].length > 0 && displayed[1].length < SLIDE2_TEXTS[1].length && (
+          <span className="typing-cursor cursor-blink" />
+        )}
+      </p>
+      <BgDecor />
+      {done && (
+        <div className="next-btn-wrap" style={{ top: 760 }}>
+          <NextButton onClick={onNext} />
+        </div>
+      )}
+    </div>
+  );
+}
 
-        {mainScreen === 'sentence' && (
-          <SentenceFlow onFinish={() => setMainScreen('about')} />
-        )}
+// ===== מסך: משפט שלישי =====
+function Slide3({ onNext }) {
+  const { displayed, progress, done, pause, resume } = useTypewriter(SLIDE1_TEXTS, true);
 
-        {mainScreen === 'about' && (
-          <AboutScreen onFinish={() => setMainScreen('topics')} />
-        )}
-
-        {mainScreen === 'topics' && (
-          <TopicsScreen
-            onSelect={(topic) => {
-              setSelectedTopic(topic);
-              setMainScreen('subtopics');
-            }}
-          />
-        )}
-
-        {mainScreen === 'subtopics' && selectedTopic && (
-          <SubtopicsScreen
-            topic={selectedTopic}
-            onBack={() => setMainScreen('topics')}
-          />
-        )}
+  return (
+    <div
+      className="screen"
+      onMouseDown={pause}
+      onMouseUp={resume}
+      onMouseLeave={resume}
+      onTouchStart={pause}
+      onTouchEnd={resume}
+    >
+      <Bg />
+      <ProgressBar progress={progress} current={2} />
+      <QuoteCard top={148} height={564} />
+      <OpeningQuote top={178.28} />
+      <p className="slide-text slide-text-wrap" style={{ top: 239 }} dir="auto">
+        {displayed[0]}
+        {!done && <span className="typing-cursor cursor-blink" />}
+      </p>
+      <BgDecor />
+      <div className="next-btn-wrap" style={{ top: 759 }}>
+        <NextButton onClick={onNext} disabled={!done} />
       </div>
     </div>
   );
+}
+
+// ===== מסך: על אומרי =====
+function AboutScreen() {
+  return (
+    <div className="screen screen-scroll">
+      <Bg />
+      <div className="about-card" />
+      <p className="about-title" dir="auto">
+        רס"ן אומרי חי בן משה
+      </p>
+      <div className="about-divider" />
+      <div className="about-profile-wrap">
+        <img alt='רס"ן אומרי חי בן משה' className="about-profile-img" src={profileImgAbout} />
+      </div>
+      <div className="about-bar" />
+    </div>
+  );
+}
+
+// ===== אפליקציה ראשית =====
+export default function App() {
+  const [screen, setScreen] = useState("intro");
+
+  const screens = {
+    intro: <IntroScreen onStart={() => setScreen("slide1")} />,
+    slide1: <Slide1 onNext={() => setScreen("slide2")} />,
+    slide2: <Slide2 onNext={() => setScreen("slide3")} />,
+    slide3: <Slide3 onNext={() => setScreen("about")} />,
+    about: <AboutScreen />,
+  };
+
+  return <div className="app-root">{screens[screen]}</div>;
 }

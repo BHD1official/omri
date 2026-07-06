@@ -1,631 +1,303 @@
-/* ============================================
-   FONTS & GLOBAL
-   ============================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Noto+Sans+Hebrew:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&family=Lemon&family=Playpen+Sans+Hebrew:wght@600&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
-html, body, #root {
-  width: 100%;
-  height: 100%;
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-}
-
-/* ============================================
-   ANIMATIONS
-   ============================================ */
-
-@keyframes blinkCursor {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* ============================================
-   COLORS (CSS VARIABLES)
-   ============================================ */
-
-:root {
-  /* --color-outer-bg: #e7dab8; */
-  --color-outer-bg-deep: #d9c79c;
-  --color-cool-bg: #dde9e4;
-  --color-cool-bg-deep: #c6dad2;
-  --color-card-bg: #faf5e8;
-  /* --color-card-border: #b29463; */
-  --color-text-dark: #37291c;
-  --color-text-muted: #83704c;
-  --color-accent: #0A1416;
-  --color-accent-text: #f6efdd;
-  --color-quote-mark: #c7a877;
-  /* --color-hill: #d8c79b; */
-  --color-sage: #cfe0d8;
-  --color-sage-dark: #a9c2b6;
-}
-
-/* ============================================
-   MAIN CONTAINER
-   ============================================ */
-
-.app-container {
-  width: 100%;
+.app-root {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  direction: rtl;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-.viewport {
   width: 100%;
-  max-width: 360px;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ============================================
-   FRAME - Mobile Phone Container
-   ============================================ */
-
-.frame {
-  width: 100%;
-  max-width: 360px;
-  min-height: 640px;
-  border-radius: 26px;
-  padding: 26px 18px;
   overflow: hidden;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 40px rgba(232, 29, 29, 0.1);
 }
 
-.frame.warm-tone {
-  background: radial-gradient(120% 90% at 50% 0%, var(--color-outer-bg), var(--color-outer-bg-deep));
-}
-
-.frame.cool-tone {
-  background: radial-gradient(120% 90% at 50% 0%, var(--color-cool-bg), var(--color-cool-bg-deep));
-}
-
-.frame-content {
+.screen {
   position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 16px;
-}
-
-.hill-svg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
-  height: 90px;
+  height: 100%;
 }
 
-
-
-
-
-.intro-quote{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  margin-bottom:28px;
-
+.screen-scroll {
+  overflow-y: auto;
 }
 
-.intro-quote-icon{
-  font-size:48px;
-  color:#83704c;
-  opacity:.35;
-  line-height:0;
-  top: -2vh;
-    position: relative;
-      align-self: center;
-      display: block;
-
+.bg-fixed {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: -10;
 }
 
-.intro-quote-text{
-  margin:0;
-  text-align:center;
-  font-size:1rem;
-  line-height:1.7;
-  color:#6f6246;
-  font-style:italic;
-  max-width:280px;
-  background:var(--color-card-bg);
-  border: 1.5px solid var(--color-card-border);
-  border-radius: 14px;
-  padding: 58px 20px;
-  flex-direction: column;
-  flex: 1;
-  gap: 12px;
-
-}
-
-
-
-/* ============================================
-   PROGRESS BAR
-   ============================================ */
-
-.progress-bar-container {
+/* ===== פס התקדמות ===== */
+.progress-bar-wrap {
+  position: absolute;
+  top: 86px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  gap: 4px;
-  margin-bottom: 16px;
+  gap: 8px;
+  width: 319px;
+  height: 10px;
 }
 
-.progress-bar {
+.progress-bar-track {
   flex: 1;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 999px;
+  background: #fffff6;
+  border-radius: 9999px;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: #fff;
-  border-radius: 999px;
-  width: 0%;
-  transition: width 80ms linear;
+  background: #f0e0bf;
+  transition: width 0.2s;
+  transform-origin: right;
 }
 
-.progress-bar-fill.paused {
-  transition: none !important;
+/* ===== עיצוב תחתון ===== */
+.bg-decor {
+  position: absolute;
+  height: 207px;
+  left: -15px;
+  top: 682px;
+  width: 466px;
+  pointer-events: none;
 }
 
-/* ============================================
-   CARDS & INNER ELEMENTS
-   ============================================ */
-
-.inner-card {
-  /* background: var(--color-card-bg); */
-  border: 1.5px solid var(--color-card-border);
-  border-radius: 14px;
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 12px;
+.bg-decor-img {
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
+/* ===== כרטיס ציטוט ===== */
+.quote-card {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 319px;
+  background: #fffff6;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+}
 
-h2 {
-  font-family: 'Frank Ruhl Libre', Georgia, serif;
-  font-size: 28px;
-  font-weight: 700;
+/* ===== מרכאה פותחת ===== */
+.opening-quote {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 60px;
+  color: #000;
   text-align: center;
-  color: var(--color-text-dark);
-  line-height: 1.4;
+  width: 46px;
+  line-height: normal;
+  font-style: normal;
+  font-family: 'Lemon', sans-serif;
 }
 
-h3 {
-  font-family: 'Frank Ruhl Libre', Georgia, serif;
-  font-size: 22px;
-  font-weight: 700;
+/* ===== כפתור המשך ===== */
+.next-btn,
+.intro-start-btn {
+  width: 319px;
+  height: 61px;
+  background: #0a1416;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.4s;
+}
+
+.next-btn-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.next-btn-text {
+  color: #fff;
+  white-space: nowrap;
+  font-family: 'Heebo', sans-serif;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+/* ===== טקסט שקופיות + סמן מהבהב ===== */
+.slide-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 253px;
+  color: #000;
   text-align: center;
-  color: var(--color-text-dark);
-  margin-bottom: 16px;
-  line-height: 1.4;
+  line-height: normal;
+  font-size: 30px;
+  font-family: 'Playpen Sans Hebrew', sans-serif;
+  font-weight: 600;
 }
 
-p {
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-  color: var(--color-text-muted);
-  line-height: 1.7;
-  font-size: 14px;
+.slide-text-wrap {
+  white-space: pre-wrap;
 }
 
-.intro-subtitle {
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 14px;
-  margin-bottom: 16px;
-}
-
-.about-label {
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-  color: var(--color-text-muted);
-  font-size: 12px;
-  margin-bottom: 8px;
-}
-
-.about-name {
-  font-family: 'Frank Ruhl Libre', Georgia, serif;
-  text-align: center;
-  color: var(--color-text-dark);
-  font-size: 18px;
-  font-weight: 700;
-  margin: 12px 0;
-}
-
-.about-description {
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-  text-align: center;
-  line-height: 1.7;
-  color: var(--color-text-muted);
-  font-size: 14px;
-}
-
-/* ============================================
-   QUOTE SECTION
-   ============================================ */
-
-.quote-mark {
-  font-family: 'Frank Ruhl Libre', Georgia, serif;
-  font-size: 54px;
-  color: var(--color-quote-mark);
-  display: block;
-}
-
-.sentence-content {
-  text-align: right;
-  flex: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-  min-height: 100px;
-}
-
-.quote-text {
-  font-family: 'Frank Ruhl Libre', Georgia, serif;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 1.7;
-  color: var(--color-text-dark);
-  margin: 0;
-  padding: 0;
-}
-
-.body-text {
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--color-text-muted);
-  margin: 0;
-  padding: 0;
-}
-
-/* ============================================
-   CURSOR
-   ============================================ */
-
-.cursor {
+.typing-cursor {
   display: inline-block;
   width: 2px;
-  height: 1em;
-  background: var(--color-text-dark);
-  margin-inline-start: 4px;
-  animation: blinkCursor 0.8s infinite;
+  height: 30px;
+  background: #000;
+  margin-left: 4px;
 }
 
-/* ============================================
-   BUTTONS
-   ============================================ */
+.cursor-hidden {
+  opacity: 0;
+}
 
-.btn-primary {
-  margin-top: auto;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  background: var(--color-accent);
-  color: var(--color-accent-text);
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.cursor-blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ===== מסך פתיח ===== */
+.intro-profile-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 260px;
+  top: 55px;
+}
+
+.intro-profile-img {
+  position: absolute;
+  display: block;
+  inset: 0;
+  max-width: none;
   width: 100%;
+  height: 100%;
 }
 
-.btn-primary:hover {
-  background: #354127;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.intro-name {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 330px;
+  width: 304px;
+  text-align: center;
+  color: #000;
+  line-height: normal;
+  font-family: 'Heebo', sans-serif;
+  font-size: 25.882px;
+  font-weight: 800;
 }
-/* .btn-primary:hover {
-  background: #986854;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px #986854;
-} */
 
-.btn-primary:active {
-  transform: translateY(0);
+.intro-dates {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 416px;
+  text-align: center;
+  color: #5d5d62;
+  line-height: normal;
+  white-space: nowrap;
+  font-family: 'Heebo', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.btn-back {
-  border: none;
-  background: none;
-  font-size: 22px;
-  cursor: pointer;
-  align-self: flex-start;
-  padding: 0;
-  color: var(--color-text-dark);
-  transition: opacity 0.2s ease;
+.intro-quote-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 560px;
+  width: 220px;
+  color: #000;
+  text-align: center;
+  line-height: normal;
+  font-family: 'Playpen Sans Hebrew', sans-serif;
+  font-size: 29.276px;
+  font-weight: 600;
+}
+
+.intro-start-btn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 720px;
+}
+
+/* ===== מסך על אומרי ===== */
+.about-card {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 105px;
+  width: 378px;
+  min-height: 754px;
+  background: #fffff6;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+}
+
+.about-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 134px;
+  width: 339px;
+  color: #000;
+  text-align: center;
+  line-height: normal;
+  font-size: 35px;
+  font-family: 'Heebo', sans-serif;
   font-weight: 700;
 }
 
-.btn-back:hover {
-  opacity: 0.6;
+.about-divider {
+  position: absolute;
+  left: 31px;
+  top: 194px;
+  width: 340px;
+  height: 1px;
+  background: #d9d9d9;
 }
 
-.btn-topic {
-  background: var(--color-sage);
-  border: none;
-  border-radius: 12px;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-  font-size: 12px;
-  color: var(--color-text-dark);
-  font-weight: 500;
-  min-height: 80px;
-  justify-content: center;
+.about-profile-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 278px;
+  width: 260px;
+  height: 260px;
 }
 
-.btn-topic:hover {
-  background: var(--color-sage-dark);
-  transform: translateY(-2px);
-}
-
-.btn-topic:active {
-  transform: translateY(0);
-}
-
-/* ============================================
-   AVATAR
-   ============================================ */
-
-.avatar {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  background: #e7d2ad;
-  border: 2px solid var(--color-card-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 12px auto 0;
-}
-
-.avatar-small {
-  width: 85px;
-  height: 85px;
-}
-
-/* ============================================
-   TOPICS SECTION
-   ============================================ */
-
-.topics-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: auto;
-  flex: 1;
-  align-content: start;
-}
-
-.topics-title {
-  font-family: 'Frank Ruhl Libre', Georgia, serif;
-  text-align: center;
-  font-size: 24px;
-  color: var(--color-text-dark);
-  margin-top: 12px;
-  margin-bottom: 0;
-}
-
-/* ============================================
-   SUBTOPICS SECTION
-   ============================================ */
-
-.subtopics-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 16px;
-  flex: 1;
-}
-
-.subtopic-item {
-  background: var(--color-card-bg);
-  border: 1px solid var(--color-card-border);
-  border-radius: 12px;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
-  color: var(--color-text-dark);
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.subtopic-item:hover {
-  background: var(--color-card-bg);
-  border-color: var(--color-accent);
-}
-
-/* ============================================
-   SENTENCE FLOW WRAPPER
-   ============================================ */
-
-.sentence-flow-wrapper {
-  display: flex;
-  flex-direction: column;
+.about-profile-img {
+  position: absolute;
+  display: block;
+  inset: 0;
+  max-width: none;
   width: 100%;
-  max-width: 360px;
-  min-height: 640px;
+  height: 100%;
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-
-@media (max-width: 480px) {
-  .frame {
-    border-radius: 16px;
-    padding: 16px 12px;
-    min-height: 560px;
-  }
-
-  .app-container {
-    padding: 5px;
-  }
-
-  h2 {
-    font-size: 24px;
-  }
-
-  h3 {
-    font-size: 18px;
-  }
-
-  .inner-card {
-    padding: 16px 14px;
-    border-radius: 10px;
-  }
-
-  .quote-text {
-    font-size: 16px;
-  }
-
-  .body-text {
-    font-size: 13px;
-  }
-
-  p {
-    font-size: 13px;
-  }
-
-  .intro-subtitle {
-    font-size: 13px;
-  }
-
-  .about-description {
-    font-size: 13px;
-  }
-
-  .btn-primary {
-    font-size: 14px;
-    padding: 12px;
-  }
-
-  .btn-topic {
-    font-size: 11px;
-    padding: 10px;
-    min-height: 70px;
-  }
-
-  .topics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  .avatar {
-    width: 80px;
-    height: 80px;
-  }
-
-  .avatar-small {
-    width: 70px;
-    height: 70px;
-  }
+.about-bar {
+  position: absolute;
+  background: #000;
+  height: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 10px;
+  top: 835px;
+  width: 151px;
 }
-
-@media (max-width: 375px) {
-  .frame {
-    padding: 14px 10px;
-    min-height: 500px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  h3 {
-    font-size: 16px;
-  }
-
-  .quote-mark {
-    font-size: 44px;
-  }
-
-  .quote-text {
-    font-size: 15px;
-  }
-
-  .body-text {
-    font-size: 12px;
-  }
-
-  .inner-card {
-    padding: 14px 10px;
-  }
-
-  .btn-topic {
-    font-size: 10px;
-    padding: 8px;
-    min-height: 60px;
-    border-radius: 10px;
-  }
-
-  .avatar {
-    width: 70px;
-    height: 70px;
-  }
-
-  .avatar-small {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-/* ============================================
-   ACCESSIBILITY
-   ============================================ */
-
-button:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cursor,
-  .progress-bar-fill {
-    animation: none;
-  }
-
-  .progress-bar-fill.playing {
-    transition: none;
-  }
-}
-
-
-
