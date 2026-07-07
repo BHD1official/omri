@@ -67,6 +67,8 @@
   top: 682px;
   width: 466px;
   pointer-events: none;
+    z-index: 0;
+
 }
 
 .bg-decor-img {
@@ -300,4 +302,16 @@
   border-radius: 10px;
   top: 835px;
   width: 151px;
+}
+.about-card,
+.about-title,
+.about-divider,
+.about-profile-wrap,
+.about-bar {
+  position: absolute;
+  z-index: 2;
+}
+
+.bg {
+  z-index: 0;
 }
