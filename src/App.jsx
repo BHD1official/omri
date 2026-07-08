@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { ArrowLeft } from "lucide-react";
 import "./App.css";
 
 // ===== תמונות (תיקיית assets) =====
@@ -15,6 +16,19 @@ const SLIDE2_TEXTS = [
 ];
 const SLIDE3_TEXTS = [
   '"בזכות מסירות נפשן,בזכות הלכתן לפני המחנה , בעוז, עוצמה,וודאות  מוחלטת בטוב ההולך ומופיע ומתוך כך האומץ  והגבורה למסור את נפשם"',
+];
+
+// ===== טקסט placeholder למסכי תוכן (להחליף בטקסט האמיתי) =====
+const ABOUT_TEXT = Array(12).fill("מלל מלל מלל מלל").join("\n");
+const CURRICULUM_TEXT = Array(12).fill("מלל מלל מלל מלל").join("\n") + "\nמלל";
+
+// ===== נושאים (מסך topics) =====
+const TOPICS = [
+  { id: "01", label: "ערכים" },
+  { id: "02", label: "המלחמה הצבאי" },
+  { id: "03", label: "צבא חברה" },
+  { id: "04", label: "מוטיבציות ופיקוד" },
+  { id: "05", label: "פיתוח אישי" },
 ];
 
 // ===== הגדרות =====
@@ -106,7 +120,7 @@ function OpeningQuote({ top }) {
 }
 
 // ===== רכיב: כפתור המשך =====
-function NextButton({ onClick, disabled = false }) {
+function NextButton({ onClick, disabled = false, label = "המשך !" }) {
   return (
     <button
       onClick={onClick}
@@ -114,7 +128,7 @@ function NextButton({ onClick, disabled = false }) {
       className="next-btn"
       style={{ opacity: disabled ? 0.4 : 1 }}
     >
-      <span className="next-btn-text">המשך !</span>
+      <span className="next-btn-text">{label}</span>
     </button>
   );
 }
@@ -253,7 +267,23 @@ function Slide3({ onNext }) {
 }
 
 // ===== מסך: על אומרי =====
-function AboutScreen() {
+
+function AboutScreen({ onNext }) {
+  const [shrunk, setShrunk] = useState(false);
+  const [textVisible, setTextVisible] = useState(false);
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+
+  useEffect(() => {
+    const shrinkTimer = setTimeout(() => setShrunk(true), 500);
+    const textTimer = setTimeout(() => setTextVisible(true), 500 + 900); // אחרי שהאנימציה של התמונה מסתיימת
+    const buttonTimer = setTimeout(() => setButtonEnabled(true), 500 + 900 + 4000); // כמה שניות אחרי שהטקסט מופיע
+    return () => {
+      clearTimeout(shrinkTimer);
+      clearTimeout(textTimer);
+      clearTimeout(buttonTimer);
+    };
+  }, []);
+
   return (
     <div className="screen screen-scroll">
       <Bg />
@@ -262,10 +292,103 @@ function AboutScreen() {
         רס"ן אומרי חי בן משה
       </p>
       <div className="about-divider" />
-      <div className="about-profile-wrap">
+      <div
+        className={`about-profile-wrap ${shrunk ? "about-profile-small" : "about-profile-large"}`}
+      >
         <img alt='רס"ן אומרי חי בן משה' className="about-profile-img" src={profileImgAbout} />
       </div>
-      <div className="about-bar" />
+      <p
+        className={`content-text about-text-centered about-fade ${
+          textVisible ? "about-fade-visible" : "about-fade-hidden"
+        }`}
+        dir="auto"
+      >
+        {ABOUT_TEXT}
+      </p>
+      <div className="content-next-btn-wrap">
+        <NextButton onClick={onNext} disabled={!buttonEnabled} label="המשך !" />
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+
+// ===== מסך: על הלומדה =====
+function CurriculumScreen({ onNext }) {
+  return (
+    <div className="screen screen-scroll">
+      <Bg />
+      <div className="about-card" />
+      <p className="about-title" dir="auto">
+        על הלומדה
+      </p>
+      <div className="about-divider" />
+      <p className="content-text curriculum-text" dir="auto">
+        {CURRICULUM_TEXT}
+      </p>
+      <div className="content-next-btn-wrap">
+        <NextButton onClick={onNext} label="הבנתי !" />
+      </div>
+    </div>
+  );
+}
+
+
+
+
+// ===== מסך: רשת נושאים =====
+function TopicsScreen({ onAbout, onSelectTopic }) {
+  return (
+    <div className="screen screen-scroll topics-screen">
+      <div className="topics-bg" />
+      <div className="topics-header-card">
+        <div className="topics-header-img-wrap">
+          <img alt='רס"ן אומרי חי בן משה' className="topics-header-img" src={profileImgAbout} />
+        </div>
+        <div className="topics-header-text" dir="auto">
+          <p className="topics-header-name">רס"ן אומרי חי</p>
+          <p className="topics-header-name">בן משה הי"ד</p>
+          <p className="topics-header-quote">" מבט אמוני, ריאלי ואופטימי "</p>
+        </div>
+      </div>
+
+      <div className="topics-divider-dot" />
+
+      <div className="topics-grid" dir="rtl">
+        <button className="topic-card" onClick={() => onSelectTopic(TOPICS[0])}>
+          <span className="topic-number">{TOPICS[0].id}</span>
+          <span className="topic-label">{TOPICS[0].label}</span>
+        </button>
+
+        <button className="topic-card topic-card-center" onClick={onAbout}>
+          <span className="topic-label">על אומרי</span>
+          <ArrowLeft size={20} />
+        </button>
+
+        <button className="topic-card" onClick={() => onSelectTopic(TOPICS[1])}>
+          <span className="topic-number">{TOPICS[1].id}</span>
+          <span className="topic-label">{TOPICS[1].label}</span>
+        </button>
+
+        <button className="topic-card" onClick={() => onSelectTopic(TOPICS[2])}>
+          <span className="topic-number">{TOPICS[2].id}</span>
+          <span className="topic-label">{TOPICS[2].label}</span>
+        </button>
+
+        <button className="topic-card" onClick={() => onSelectTopic(TOPICS[3])}>
+          <span className="topic-number">{TOPICS[3].id}</span>
+          <span className="topic-label">{TOPICS[3].label}</span>
+        </button>
+
+        <button className="topic-card" onClick={() => onSelectTopic(TOPICS[4])}>
+          <span className="topic-number">{TOPICS[4].id}</span>
+          <span className="topic-label">{TOPICS[4].label}</span>
+        </button>
+      </div>
     </div>
   );
 }
@@ -279,7 +402,14 @@ export default function App() {
     slide1: <Slide1 onNext={() => setScreen("slide2")} />,
     slide2: <Slide2 onNext={() => setScreen("slide3")} />,
     slide3: <Slide3 onNext={() => setScreen("about")} />,
-    about: <AboutScreen />,
+    about: <AboutScreen onNext={() => setScreen("curriculum")} />,
+    curriculum: <CurriculumScreen onNext={() => setScreen("topics")} />,
+    topics: (
+      <TopicsScreen
+        onAbout={() => setScreen("about")}
+        onSelectTopic={(topic) => console.log("נבחר נושא:", topic)}
+      />
+    ),
   };
 
   return <div className="app-root">{screens[screen]}</div>;
