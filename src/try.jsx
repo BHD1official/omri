@@ -83,8 +83,8 @@ function useTypewriter(texts, active) {
 function ProgressBar({ progress, current }) {
   return (
     <div className="progress-bar-wrap" dir="rtl">
-{[0, 1].map((i) => (
-          <div key={i} className="progress-bar-track">
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="progress-bar-track">
           <div
             className="progress-bar-fill"
             style={{
@@ -240,7 +240,33 @@ function Slide2({ onNext }) {
 }
 
 // ===== מסך: משפט שלישי =====
+function Slide3({ onNext }) {
+  const { displayed, progress, done, pause, resume } = useTypewriter(SLIDE1_TEXTS, true);
 
+  return (
+    <div
+      className="screen"
+      onMouseDown={pause}
+      onMouseUp={resume}
+      onMouseLeave={resume}
+      onTouchStart={pause}
+      onTouchEnd={resume}
+    >
+      <Bg />
+      <ProgressBar progress={progress} current={2} />
+      <QuoteCard top={148} height={564} />
+      <OpeningQuote top={178.28} />
+      <p className="slide-text slide-text-wrap" style={{ top: 239 }} dir="auto">
+        {displayed[0]}
+        {!done && <span className="typing-cursor cursor-blink" />}
+      </p>
+      <BgDecor />
+      <div className="next-btn-wrap" style={{ top: 759 }}>
+        <NextButton onClick={onNext} disabled={!done} />
+      </div>
+    </div>
+  );
+}
 
 // ===== מסך: על אומרי =====
 
@@ -376,7 +402,8 @@ export default function App() {
   const screens = {
     intro: <IntroScreen onStart={() => setScreen("slide1")} />,
     slide1: <Slide1 onNext={() => setScreen("slide2")} />,
-slide2: <Slide2 onNext={() => setScreen("about")} />,
+    slide2: <Slide2 onNext={() => setScreen("slide3")} />,
+    slide3: <Slide3 onNext={() => setScreen("about")} />,
     about: <AboutScreen onNext={() => setScreen("curriculum")} />,
     curriculum: <CurriculumScreen onNext={() => setScreen("topics")} />,
     topics: (
