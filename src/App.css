@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&family=Lemon&family=Playpen+Sans+Hebrew:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&family=Lemon&family=Playpen+Sans+Hebrew:wght@600&family=Karantina&family=Monomakh&display=swap');
+
+/* ⚠️ "Galacti Condensed" (כותרת מסך הנושאים) אינו זמין ב-Google Fonts.
+   אם יש לך את קובץ הפונט, הוסף כאן @font-face ותחליף את font-family למטה. */
 
 * {
   user-select: none;
@@ -239,30 +242,7 @@
   top: 720px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ===== מסך: על אומרי / על הלומדה (משותף) ===== */
-.about-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    width: min(378px, 90vw);
-    background: #fffff6;
-    border-radius: 20px;
-    padding: 30px 20px 40px;
-}
 .about-title {
   position: absolute;
   left: 50%;
@@ -287,15 +267,6 @@
   background: #d9d9d9;
 }
 
-.about-profile-wrap {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 278px;
-  width: min(260px, 70vw);
-  height: min(260px, 70vw);
-}
-
 .about-profile-img {
   position: absolute;
   display: block;
@@ -304,7 +275,6 @@
   width: 100%;
   height: 100%;
 }
-
 
 .bg {
   z-index: 0;
@@ -328,52 +298,10 @@
   box-sizing: border-box;
 }
 
-/* about-profile-wrap (top 278 + height עד 260) מסתיים סביב 538-560, הטקסט מתחיל מתחתיו */
-.about-text {
-  top: 560px;
-
-}
-
 /* אין תמונת פרופיל במסך הלומדה, הטקסט מתחיל מיד אחרי המפריד (top 194) */
 .curriculum-text {
   top: 230px;
 }
-
-.content-next-btn-wrap {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 24px;
-  z-index: 5;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .about-card {
   position: absolute;
@@ -385,55 +313,8 @@
   border-radius: 20px;
   box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
-  transition: height 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.about-card-collapsed {
-  height: min(560px, 68vh);
-}
-
-.about-card-expanded {
-  height: 754px;
-}
-
-.about-fade {
-  transition: opacity 0.6s ease;
-}
-
-.about-fade-hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.about-fade-visible {
-  opacity: 1;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.about-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 70vh;
-    width: min(378px, 90vw);
-    background: #fffff6;
-    border-radius: 20px;
-    padding: 30px 20px 40px;
+  height: 70vh;
+  z-index: 2;
 }
 
 .about-profile-wrap {
@@ -443,6 +324,7 @@
   transition: top 0.9s cubic-bezier(0.4, 0, 0.2, 1),
               width 0.9s cubic-bezier(0.4, 0, 0.2, 1),
               height 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
 }
 
 .about-profile-large {
@@ -475,150 +357,477 @@
   top: 250px;
 }
 
-
-/* ===== מסך: רשת נושאים ===== */
-.topics-screen {
-  padding-bottom: 626px;
-}
-
-/* רקע placeholder בגוון מנטה - להחליף בתמונת רקע אמיתית כשתהיה */
-.topics-bg {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(180deg, #d7e8df 0%, #eef6f0 60%, #f5faf7 100%);
-  z-index: -10;
-}
-
-.topics-header-card {
+.content-next-btn-wrap {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 90px;
-  width: 340px;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  gap: 16px;
-  background: #fffff6;
-  border-radius: 20px;
-  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
-  padding: 18px;
-  z-index: 2;
+  bottom: 5vh;
 }
 
-.topics-header-img-wrap {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
+/* =========================================================
+   מסך נושאים חדש - לפי Figma "דף נושאים עידכון" (node 1:393)
+   כל המיקומים מבוססים על פריים עיצוב של 402x874 (כמו שאר המסכים בקובץ),
+   וממורכזים ברוחב המסך בעזרת left:50% + translateX(-50%).
+   ========================================================= */
+
+.topics2-screen {
+  padding-bottom: 260px;
 }
 
-.topics-header-img {
+.topics2-bg {
+  position: fixed;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  pointer-events: none;
+  z-index: -10;
 }
 
-.topics-header-text {
+.topics2-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 48px;
+  width: min(289px, 80vw);
+  color: #000;
+  text-align: center;
+  line-height: normal;
+  font-size: 40px;
+  font-weight: 400;
+  /* פונט "Galacti Condensed" מקורי מ-Figma - הוסף @font-face אם יש לך את הקובץ */
+  font-family: 'Galacti Condensed', 'Heebo', sans-serif;
+  z-index: 2;
+}
+
+.topics2-quote-wrap {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 341px;
+  height: 294px;
+  z-index: 2;
+}
+
+.topics2-quote-wrap .quote-card {
+  background: rgba(254, 254, 242, 0.6);
+}
+
+.topics2-quote-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 175px;
+  width: 307px;
+  color: #000;
+  text-align: center;
+  line-height: normal;
+  font-family: 'Heebo', sans-serif;
+  font-size: 21.338px;
+  font-weight: 600;
+}
+
+.topics2-dots {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 264px;
+  width: 40px;
+  height: 12px;
+  z-index: 2;
+}
+
+/* ===== בועת נושא ===== */
+.topics2-bubble,
+.topic-bubble {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.topic-bubble-halfcircle {
+  position: absolute;
+  display: block;
+  max-width: none;
+  z-index: 1;
+}
+
+.topic-bubble-card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: 14.545px;
+  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+  background-image: linear-gradient(
+    -27deg,
+    rgba(106, 60, 59, 0.85) 9%,
+    rgba(158, 102, 85, 0.85) 97%
+  );
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
+
+.topic-bubble-profile {
+  position: absolute;
+  top: 0;
+  display: block;
+  max-width: none;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+.topic-bubble-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #f9f9ee;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 900;
+  font-size: 21.338px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.topic-bubble-count {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #f9f9ee;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 900;
+  font-size: 10.669px;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.topic-bubble-badge {
+  position: absolute;
+  width: 26.6px;
+  height: 26.6px;
+  border-radius: 50%;
+  background: rgba(249, 249, 238, 0.35);
+  z-index: 2;
+}
+
+.topic-bubble-arrow {
+  position: absolute;
+  color: #f9f9ee;
+  z-index: 3;
+}
+
+.topics2-bottom-decor {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 683px;
+  width: 384px;
+  height: 196px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.topics2-bottom-decor-img {
+  position: absolute;
+  top: 0;
+  left: -1.76%;
+  width: 114.96%;
+  max-width: none;
+  height: 100%;
+}
+
+/* =========================================================
+   מסך עמוד נושא פרטני (ערכים / המקצוע הצבאי / צבא וחברה / פיתוח אישי / מנהיגות ופיקוד)
+   אותה תבנית לכל 5 העמודים בפיגמה, רק עם רקע ותוכן שונים.
+   ========================================================= */
+
+.topic-detail-screen {
+  padding-bottom: 60px;
+}
+
+.topic-detail-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: -10;
+}
+
+.topic-detail-back {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  width: 49px;
+  height: 49px;
+  border-radius: 9.8px;
+  background: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.topic-detail-card {
+  position: relative;
+  margin: 66px auto 40px;
+  width: min(378px, 90vw);
+  min-height: 620px;
+  background: #fefef2;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  padding: 34px 18px 40px;
+  z-index: 2;
+}
+
+.topic-detail-handle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 8px;
+  width: 96px;
+  height: 5.086px;
+  border-radius: 6.358px;
+  background: #aeaaaa;
+}
+
+.topic-detail-title {
+  margin: 12px 0 0;
+  text-align: center;
+  color: #2f3e46;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: normal;
+}
+
+.topic-detail-divider {
+  margin: 18px 0 20px;
+  height: 1px;
+  background: #d9d9d9;
+}
+
+.topic-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* שורת תת-נושא: dir=rtl אמיתי (לא auto) כדי שהיישור לא "יתהפך" כשהתוכן מתחיל בספרות.
+   סדר ה-DOM: [מספר רקע דהוי - אבסולוטי] [טקסט - ילד ראשון => מוצג מימין ב-rtl]
+   [thumbnail - ילד אחרון => מוצג משמאל ב-rtl]. */
+.topic-detail-row {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  height: 85px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  padding: 0 18px;
+  width: 100%;
+}
+
+.topic-detail-row-number {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Monomakh', serif;
+  font-size: 50.343px;
+  color: #2f3e46;
+  opacity: 0.35;
+  line-height: normal;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.topic-detail-row-text {
+  position: relative;
+  z-index: 1;
   flex: 1;
+  min-width: 0;
+  text-align: right;
+}
+
+.topic-detail-row-label {
+  margin: 0;
+  color: #000;
+  font-family: 'Karantina', sans-serif;
+  font-size: 28px;
+  line-height: normal;
+}
+
+.topic-detail-row-subtitle {
+  margin: 4px 0 0;
+  color: #777;
+  font-family: 'Heebo', sans-serif;
+  font-size: 10px;
+  line-height: normal;
+}
+
+.topic-detail-row-thumb {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  color: #2f3e46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   עמוד תוכן תת-נושא בודד (שיר / סרטון / טקסט)
+   ========================================================= */
+
+.item-card {
+  padding-top: 40px;
   text-align: center;
 }
 
-.topics-header-name {
+.item-listen-btn {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: -26px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0a1416;
+  color: #e7e7dc;
+  border-radius: 20px;
+  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+  padding: 14px 18px;
   font-family: 'Heebo', sans-serif;
-  font-weight: 800;
-  font-size: 17px;
-  color: #000;
-  margin: 0;
-  line-height: 1.3;
+  font-weight: 700;
+  font-size: 15px;
+  z-index: 3;
 }
 
-.topics-header-quote {
-  margin-top: 10px;
-  font-family: 'Playpen Sans Hebrew', sans-serif;
-  font-weight: 600;
+.item-title {
+  position: static;
+  transform: none;
+  left: auto;
+  width: auto;
+}
+
+.item-date {
+  margin: 14px 0 0;
+  text-align: center;
+  color: #777;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700;
   font-size: 16px;
+}
+
+.item-heading {
+  margin: 10px 0 0;
+  text-align: center;
   color: #000;
-  line-height: 1.4;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
 }
 
-.topics-divider-dot {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 270px;
-  width: 32px;
-  height: 6px;
+.item-audio-bar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.item-audio-bar {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 52px;
+  border: 1px solid #000;
   border-radius: 9999px;
-  background: #7fb3a3;
-  z-index: 2;
-}
-
-.topics-grid {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 300px;
-  width: 340px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  z-index: 2;
-}
-
-.topic-card {
-  aspect-ratio: 1;
-  border: none;
-  border-radius: 16px;
   background: #fffff6;
+  overflow: hidden;
+}
+
+.item-audio-bar-fill {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  border-radius: 9999px 0 0 9999px;
+  background: #000;
+  transition: width 0.3s;
+}
+
+.item-audio-bar-play {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #000;
+}
+
+.item-media-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.12);
-  padding: 8px;
+  gap: 10px;
+  margin: 16px 0;
+  height: 180px;
+  border-radius: 16px;
+  background: #efe9d8;
+  color: #6b6b63;
 }
 
-.topic-number {
+.item-media-placeholder span {
   font-family: 'Heebo', sans-serif;
-  font-weight: 900;
-  font-size: 22px;
-  color: #0a1416;
-}
-
-.topic-label {
-  font-family: 'Heebo', sans-serif;
-  font-weight: 700;
   font-size: 13px;
-  color: #0a1416;
+  font-weight: 600;
   text-align: center;
-  line-height: 1.2;
+  padding: 0 20px;
 }
 
-.topic-card-center {
-  background: #0a1416;
+.item-video {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+  margin: 16px 0;
 }
 
-.topic-card-center .topic-label {
-  color: #fff;
+.item-body {
+  margin: 16px 0 0;
+  text-align: center;
+  color: #555;
+  font-family: 'Heebo', sans-serif;
+  font-size: 15px;
+  line-height: 1.9;
+  white-space: pre-line;
 }
-
-.topic-card-center svg {
-  color: #fff;
-}
-.about-card, .about-title, .about-divider, .about-profile-wrap {
-    position: absolute;
-    z-index: 2;
-}
-
-.content-next-btn-wrap {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 5vh; /* או כל ערך שמתאים */
-}
-
