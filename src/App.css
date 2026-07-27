@@ -922,6 +922,10 @@ body {
   font-family: 'Karantina', sans-serif;
   font-size: 28px;
   line-height: normal;
+      left: -31%;
+    position: relative;
+        width: 50vw;
+
 }
 
 .topic-detail-row-subtitle {

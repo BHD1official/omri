@@ -1058,7 +1058,7 @@ export default function App() {
 
   let content = null;
 
-  if (screen === "intro") content = <IntroScreen onStart={() => setScreen("slide1")} />;
+  if (screen === "intro") content = <IntroScreen onStart={() => setScreen("topics")} />;
   else if (screen === "slide1") content = <Slide1 onNext={() => setScreen("slide2")} />;
   else if (screen === "slide2") content = <Slide2 onNext={() => setScreen("about")} />;
   else if (screen === "about") content = <AboutScreen onNext={() => setScreen("curriculum")} />;
