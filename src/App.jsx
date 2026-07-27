@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { ArrowLeft, ArrowRight, Headphones, Pause, Play, Tv, PenLine, Disc3 } from "lucide-react";
 import "./App.css";
 
@@ -9,9 +9,6 @@ import decorImg from "./assets/images/decor.png";
 import profileImgAbout from "./assets/images/profile-about.png";
 
 // ===== תמונות מסך הנושאים החדש (מ-Figma, node 1:393 "דף נושאים עידכון") =====
-// ⚠️ הקישורים האלה הם קישורי asset זמניים של פיגמה (בתוקף כ-7 ימים).
-// תוריד את הקבצים ותשמור אותם ב-src/assets/images/topics/ ואז תחליף כל import
-// בשורה כמו: import topicsBg from "./assets/images/topics/bg.png";
 const topicsBg =
   "https://www.figma.com/api/mcp/asset/479cb980-4b60-4895-8e17-e4aa526bce04";
 const topicsBottomDecor =
@@ -40,13 +37,100 @@ const SLIDE2_TEXTS = [
   "קפדנות בפרטים הקטנים והמעצבנים מייצרת ביטחון ושקט",
 ];
 
-
 const SLIDE3_TEXTS = [
   '"בזכות מסירות נפשן,בזכות הלכתן לפני המחנה , בעוז, עוצמה,וודאות  מוחלטת בטוב ההולך ומופיע ומתוך כך האומץ  והגבורה למסור את נפשם"',
 ];
 
-// ===== טקסט placeholder למסכי תוכן (להחליף בטקסט האמיתי) =====
-const ABOUT_TEXT = Array(12).fill("מלל מלל מלל מלל").join("\n");
+// ===== טקסט placeholder למסכי תוכן =====
+const ABOUT_TEXT = [ ` 
+אומרי חי בן משה הי"ד, נולד בערב ראש השנה, כ"ט באלול תשנ"ט (9.9.1999 )
+בנם הבכור של רויטל סוזי ואורן אהרון, ואח לאילון, עמית ואביתר.
+אומרי גדל והתחנך במושב צפריה.
+כילד, היה סקרן ודעתן, אהב לחקור ולגלות עולמות חדשים, לטייל, ללמוד ולקרוא.
+אומרי היה יצירתי ונהג לצייר ולכתוב מכתבים אישיים להוריו ולבני משפחתו.
+מכתביו היו מלאי רגש, מחשבה וחום, והאירו את אישיותו הייחודית כבר מגיל צעיר.
+בילדותו ובנעוריו, אומרי תמיד ביקש להבין את הדברים לעומק ואהבת הידע הפכה לחלק בלתי נפרד מאישיותו. 
+בכיתה י' עבר ללמוד בתיכון מקיף יהוד ועם סיום לימודיו בחר בשירות משמעותי.
+
+ב 18.3.2018 התגייס לצה"ל ושירת בחטיבת הצנחנים כלוחם בגדוד 890 .
+בהמשך שימש כמ"כ (מפקד כיתה) יצא לקורס קצינים, ובסיומו קיבל פיקוד על פלוגת לוחמים.
+לאחר מכן יצא ללימודים במכללה לפיקוד טקטי, במהלכם השלים תואר ראשון במדעי המדינה, צבא וביטחון באוניברסיטת חיפה.
+
+במהלך לימודיו נישא להדס, ויחד זכו לגדל את שני ילדיהם: כַּּרְְמִִי ורוֹאִִי יִִצְְחָָק.
+
+בבוקר השבעה באוקטובר, כשאומרי בתקופת לימודיו, הוא קפץ יחד עם חבריו ליישובי העוטף, לבארי - שם הקימו את "כוח בן מוש" אשר נלחם בגבורה וביצע משימות חילוץ רבות ונועזות, שבמהלכן הציל את חייהם של עשרות תושבים.
+אומרי, כהרגלו, נהג בצניעות רבה ומיעט לספר כל כך בחייו. 
+רגישותו המיוחדת באה לידי ביטוי כשהחליט לשחק עם הילדים המפונים במהלך החילוץ "מי מצליח לעצום הכי הרבה זמן עיניים", ובכך מנע מהם להיחשף למראות הזוועה הקשים שסביבם.
+
+עם סיום לימודיו, מונה למפקד פלוגה א', בגדוד 890 והוביל את לוחמיו בקרבות בעזה, בלבנון ובסוריה.
+
+בתום תפקידו כמ"פ, מונה למ"פ פלוגה א' בגדוד "דקל" בבית הספר לקצינים (בה"ד 1(.
+
+בחודש אוגוסט 2025 התקבלה פקודה להפעלת גדוד דקל וחטיבת המילואים של בה"ד 1.
+
+ביום חמישי, כ"ה באלול תשפ"ה (18.9.25) בשעה 9:11 בבוקר, במהלך משימה בדרום רצועת עזה, במזרח רפיח, בשכונת ג'ניינה, עלה ההאמר שבו נסעו החיילים על שלושה מטענים.
+											
+באירוע נהרגו רס"ן אומרי-חי בן משה, מפקד הפלוגה בגדוד דקל, אשר נהרג בעת שהוביל את חייליו בגבורה והוא בן 26 בלבד, ושלושה לוחמים: סגן רון אריאלי, סגן איתן אבנר בן יצחק וסגן ערן שלם".
+
+
+אומרי היה אדם שחי מתוך אמונה ומוטיבציה עמוקה, תכונות שבאו לידי ביטוי בכל אורחות חייו. 
+הוא הקפיד תמיד לעשות את המיטב, וחי את שליחותו בעולם מתוך אהבת האדם ואהבת הארץ.
+
+היה איש של אנשים, בעל אנושיות מיוחדת ונוכחות מעצבת ומאחדת, הוא ידע לגשר בין דעות וגוונים שונים.
+אומרי דבק באמת, חי חיי חסד ונתינה אין סופית והיה איש ספר ורוח.
+היה עבור סובביו "איש אשר רוח בו".
+אומרי חי את "הכאן ועכשיו" ופעל תמיד בשקט ובעוצמה.
+
+אחד המשפטים שהיו נר לרגליו וליווה אותו בדרכו הפיקודית:
+"באין חזון יפרע עם" (משלי כ"ט, י"ח – בהיעדר חזון והכוונה ערכית, העם מאבד כיוון(
+
+אומרי היה מפקד נערץ ואהוב, כדברי חייליו "אגדה בחייו ובמותו".
+חייליו אהבו ללכת אחריו, כי ידעו שיש מי שמקשיב להם, מסביר ומלמד.
+מפקד שאפשר לסמוך עליו תמיד.
+
+הוא מעולם לא התפשר על מקצועיות ודרש מעצמו את הרמה הגבוהה ביותר בהכל, עוד 
+לפני שדרש זאת מאחרים.
+אומרי הקפיד על סטנדרט גבוה ובלתי מתפשר, לא כהקפדה טכנית אלא כהכרח מבצעי.
+כל דבר שעשה וביצע היה ביסודיות ובמקצועיות מיטבית.
+לדבריו "על המפקד להיות אומן בפרטים הקטנים";
+"קפדנות בפרטים הקטנים והמעצבנים מייצרת ביטחון ושקט".
+אומרי למד והעמיק במקצוע הצבאי ובכל תחום אחר שבו עסק.
+הוא הקפיד על אימונים, התאמן בריצה, ואף רץ מרתון.
+
+סימן ההיכר של אומרי היה שמחת החיים והחיוך התמידי שעל פניו.
+אומרי חייך לכל אדם, וניגש לכל משימה ולכל תחום בחייו בשמחה ובאנרגיה.
+אומרי היה מחובר בכל מהותו לאדמת ארץ ישראל.
+הוא ראה בטיול בה וביישובה הגשמה של חזון.
+
+בכל הזדמנות היה אורז תיק ויוצא לטיול רגלי, לטבילה במעיין או לקפה במצפה.
+הוא התרגש מציוץ הציפורים, מפכפוך מי הנחלים וממראה הפריחה.
+
+אומרי, חי מתוך תחושת שליחות עמוקה לעם ישראל.
+כל החלטה שקיבל וכל פעולה שעשה נבעו מהתחושה שהוא חלק מסיפור גדול כשליח של עם ישראל.
+
+אומרי, חי את חייו מתוך סקרנות וחדוות למידה.
+הוא למד בכל רגע פנוי, ולצד לימוד התורה הִִרְְבָָה לקרוא, לחקור ולהעמיק בהיסטוריה, בגיאוגרפיה, בדתות שונות ובתחומים רבים נוספים.
+אהבת הידע הייתה חלק בלתי נפרד מזהותו.
+אומרי, שהיה מחובר לאדמה וראה בנטיעתה ובבניינה ערך עמוק, האמין כי "צריך לנטוע כרמים ושדות בארץ ישראל" כדבריו, וברוח זו קרא לבתו ְְַכַּרמִִי.
+
+
+כאדם שחי את החיים במלואם, גם את הזוגיות והאבהות ראה כמשימת חייו.
+אומרי היה בעל מסור ואוהב לאשתו הדס, ויחד הם הקימו בית יהודי תורני.
+ילדיו, כַּּרְְמִִי וְְרוֹאִִי יִִצְְחָָק, היו עבורו מקור אושר גדול.
+הוא היה זמין עבורם, והקפיד להנחיל להם את הערכים והחזון המשותפים לו ולהדס.
+
+שמחת החיים של אומרי, הראיה החיובית והאופטימיות שלו היו מדבקות.
+האמונה בצדקת הדרך, הידיעה שאנחנו בתקופה חשובה וגורלית שבה שהדור שלנו כותב פרק משמעותי, ואולי החשוב ביותר בהיסטוריה של העם היהודי.
+נהג לומר: "אנחנו כותבים את ההיסטוריה של עם ישראל, איזו זכות".
+
+אומרי, חי את חייו באמונה גדולה בריבונו של עולם.
+מתוך דרך של בירור וחקירה מצא את דרכו אל הקב״ה, ומאז דבק באמונה, באהבת האדם, בעשיית הטוב ובעזרה לזולת.
+אומרי הקפיד להביט על המציאות בעין טובה ובחיוביות, מתוך ראיית התמונה הגדולה ומתוך כך ידע להתחזק בעצמו ולחזק אחרים.
+
+
+
+יהי זכרו ברוך.
+`];
 const CURRICULUM_TEXT = Array(12).fill("מלל מלל מלל מלל").join("\n") + "\nמלל";
 const PLACEHOLDER_BODY = Array(6).fill("מלל מלל מלל מלל מלל מלל").join("\n");
 
@@ -54,7 +138,7 @@ const PLACEHOLDER_BODY = Array(6).fill("מלל מלל מלל מלל מלל מל�
 const TOPICS_QUOTE =
   "“ מלל מלל מלל מלל מלל מלל מלל מלל מלל מלל מלל מלל “";
 
-// ===== תמונות רקע + עיטור תחתון לכל עמוד נושא (מ-Figma, לינקים זמניים - להחליף ל-import מקומי) =====
+// ===== תמונות רקע + עיטור תחתון לכל עמוד נושא =====
 const topicBg = {
   values: "https://www.figma.com/api/mcp/asset/1747ebf8-21a4-41c2-9466-15c2e528afa1",
   military: "https://www.figma.com/api/mcp/asset/130cb352-162b-46e9-921e-8410577511ef",
@@ -70,13 +154,8 @@ const topicBottomDecor = {
   leadership: "https://www.figma.com/api/mcp/asset/c4159b5d-a4da-4c6a-bb5d-c0d5bf3ccf33",
 };
 
-// צבעי השורות בכל עמוד נושא, לפי הסדר הקבוע שמופיע בעיצוב (חוזר במעגל)
 const ROW_COLORS = ["#e7f2ee", "#bed2d1", "#ebdabc", "#fefefb", "#f2eadf"];
 
-// ===== נושאים (מסך topics) - עודכן לפי העיצוב החדש בפיגמה =====
-// items: תת-הנושאים שמופיעים בעמוד הפרטני של כל קטגוריה (בדיוק כמו שמעוצב בפיגמה)
-// כל item מכיל type ("song" | "video" | "text") שקובע איזה עמוד תוכן ייפתח בלחיצה עליו.
-// ⚠️ ה-type כאן הוא לדוגמה בלבד (אין עדיין רשימה סופית של כל הכותרות) - עדכן כשתדע את התוכן האמיתי.
 const TOPICS = [
   {
     id: "values",
@@ -128,7 +207,6 @@ const TOPICS = [
   {
     id: "leadership",
     label: "מנהיגות ופיקוד",
-    // ⚠️ במסך רשימת הנושאים כתוב "6 נושאים", אבל בעמוד הפרטני בפיגמה מעוצבים כרגע רק 4 - עדכן כשיתווספו עוד
     count: 4,
     profileImg: profileLeadership,
     halfCircleImg: halfCircleBrown,
@@ -189,6 +267,73 @@ const TOPICS = [
 // ===== הגדרות =====
 const TYPING_SPEED = 120;
 
+// =========================================================
+// רספונסיביות גלובלית: כל העיצוב ב-CSS בנוי על מסגרת פיגמה
+// קבועה בגודל 402x874. ה-hook הזה מחשב פקטור scale יחיד כך
+// שהמסגרת הזו תמיד תיכנס בשלמותה למסך המכשיר (טלפון קטן,
+// גדול, טאבלט, מחשב) בלי לשבור אף מיקום px - כי כל מה שבתוך
+// הבמה גדל/קטן יחד כיחידה אחת. זה גם הפתרון לבאג הדפדוף
+// במובייל: בלי wrapper כזה, 100vh לא תמיד תואם את גובה המסך
+// האמיתי במובייל (בגלל סרגל הכתובת שמופיע/נעלם), והדף היה
+// "קופץ" תוך כדי גרירה.
+// =========================================================
+const DESIGN_WIDTH = 402;
+const DESIGN_HEIGHT = 874;
+
+function useAppScale() {
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const calc = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const nextScale = Math.min(vw / DESIGN_WIDTH, vh / DESIGN_HEIGHT);
+      setScale(nextScale);
+    };
+
+    calc();
+    window.addEventListener("resize", calc);
+    window.addEventListener("orientationchange", calc);
+    return () => {
+      window.removeEventListener("resize", calc);
+      window.removeEventListener("orientationchange", calc);
+    };
+  }, []);
+
+  return scale;
+}
+
+// =========================================================
+// שכבת רקע שמכסה את כל מסך הטלפון (לא רק את מסגרת ה-402x874).
+// היא "fixed" ליחס הגובה/רוחב של המכשיר עצמו, עם object-fit:
+// cover, כך שגם אם המכשיר "רחב"/"צר" יותר מהיחס של מסגרת
+// העיצוב, לא נראים פסים כהים בצדדים/מעל/מתחת - כל המסך מכוסה
+// באותה תמונת רקע של המסך הנוכחי.
+// =========================================================
+function FullScreenBg({ src }) {
+  if (!src) return null;
+  return <img alt="" className="app-fullscreen-bg" src={src} />;
+}
+
+function AppScaleWrapper({ bgSrc, children }) {
+  const scale = useAppScale();
+  return (
+    <div className="app-scale-viewport">
+      <FullScreenBg src={bgSrc} />
+      <div
+        className="app-scale-stage"
+        style={{
+          width: DESIGN_WIDTH,
+          height: DESIGN_HEIGHT,
+          transform: `scale(${scale})`,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 // ===== Hook: אפקט טייפרייטר =====
 function useTypewriter(texts, active) {
   const [totalTyped, setTotalTyped] = useState(0);
@@ -230,6 +375,67 @@ function useTypewriter(texts, active) {
     pause: () => setPaused(true),
     resume: () => setPaused(false),
   };
+}
+
+// ===== עוזר: מחלק טקסט ארוך ל"עמודים" =====
+function paginateText(text, maxCharsPerPage) {
+  const paragraphs = text
+    .split(/\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  const pages = [];
+  let current = "";
+
+  const pushCurrent = () => {
+    if (current) {
+      pages.push(current.trim());
+      current = "";
+    }
+  };
+
+  for (const para of paragraphs) {
+    if (para.length > maxCharsPerPage) {
+      const words = para.split(" ");
+      let chunk = "";
+      for (const w of words) {
+        const candidate = chunk ? `${chunk} ${w}` : w;
+        if (candidate.length > maxCharsPerPage) {
+          const combined = current ? `${current}\n\n${chunk}` : chunk;
+          if (combined.length > maxCharsPerPage) {
+            pushCurrent();
+            current = chunk;
+          } else {
+            current = combined;
+          }
+          pushCurrent();
+          chunk = w;
+        } else {
+          chunk = candidate;
+        }
+      }
+      if (chunk) {
+        const combined = current ? `${current}\n\n${chunk}` : chunk;
+        if (combined.length > maxCharsPerPage) {
+          pushCurrent();
+          current = chunk;
+        } else {
+          current = combined;
+        }
+      }
+    } else {
+      const candidate = current ? `${current}\n\n${para}` : para;
+      if (candidate.length > maxCharsPerPage) {
+        pushCurrent();
+        current = para;
+      } else {
+        current = candidate;
+      }
+    }
+  }
+  pushCurrent();
+
+  return pages.length ? pages : [text];
 }
 
 // ===== רכיב: פס התקדמות =====
@@ -288,16 +494,10 @@ function NextButton({ onClick, disabled = false, label = "המשך !" }) {
   );
 }
 
-// ===== רכיב: רקע =====
-function Bg() {
-  return <img alt="" className="bg-fixed" src={bgImg} />;
-}
-
 // ===== מסך: פתיח =====
 function IntroScreen({ onStart }) {
   return (
     <div className="screen">
-      <Bg />
       <div className="intro-profile-wrap">
         <img alt='רס"ן אומרי חי בן משה' className="intro-profile-img" src={profileImgIntro} />
       </div>
@@ -333,7 +533,6 @@ function Slide1({ onNext }) {
       onTouchStart={pause}
       onTouchEnd={resume}
     >
-      <Bg />
       <ProgressBar progress={progress} current={0} />
       <QuoteCard top={148} height={284} />
       <OpeningQuote top={178.28} />
@@ -364,7 +563,6 @@ function Slide2({ onNext }) {
       onTouchStart={pause}
       onTouchEnd={resume}
     >
-      <Bg />
       <ProgressBar progress={progress} current={1} />
       <QuoteCard top={148} height={251} />
       <OpeningQuote top={178.28} />
@@ -392,47 +590,154 @@ function Slide2({ onNext }) {
   );
 }
 
-// ===== מסך: על אומרי =====
+// ===== מסך: על אומרי - דפדוף עם חצים (+ עדיין אפשר גם swipe) =====
+// דפדוף בין העמודים נעשה עם שני כפתורי חץ קבועים בתחתית הכרטיס.
+// כל מעבר עמוד מציג אנימציית החלקה+דהייה קלה (לא flip תלת-ממדי).
+// בנוסף עדיין אפשר לגלוש באצבע/עכבר על הכרטיס - זה נשאר כתוספת,
+// לא כדרך היחידה לנווט.
+// תיקון הדפדוף במובייל: ב-pointermove אנחנו "נועלים" כיוון
+// (אופקי/אנכי) לפי התזוזה הראשונה, ואם ננעל כיוון אופקי - קוראים
+// ל-preventDefault כדי לחסום את הדפדפן מלקחת את המחווה לגלילה
+// אנכית טבעית (שגורמת ל-pointercancel ומבטלת את הגרירה).
+const ABOUT_PAGE_CHAR_LIMIT = 560;
+const SWIPE_MIN_DISTANCE = 40;
+const SWIPE_DIRECTION_LOCK_THRESHOLD = 8;
 
 function AboutScreen({ onNext }) {
-  const [shrunk, setShrunk] = useState(false);
-  const [textVisible, setTextVisible] = useState(false);
-  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const pages = useMemo(
+    () => paginateText(ABOUT_TEXT.join("\n\n"), ABOUT_PAGE_CHAR_LIMIT),
+    []
+  );
+  const total = pages.length;
 
-  useEffect(() => {
-    const shrinkTimer = setTimeout(() => setShrunk(true), 500);
-    const textTimer = setTimeout(() => setTextVisible(true), 500 + 900); // אחרי שהאנימציה של התמונה מסתיימת
-    const buttonTimer = setTimeout(() => setButtonEnabled(true), 500 + 900 + 4000); // כמה שניות אחרי שהטקסט מופיע
-    return () => {
-      clearTimeout(shrinkTimer);
-      clearTimeout(textTimer);
-      clearTimeout(buttonTimer);
-    };
-  }, []);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [animClass, setAnimClass] = useState("");
+  const dragStart = useRef(null);
+  const dragDirection = useRef(null); // null | "horizontal" | "vertical"
+
+  const goToPage = (index, direction) => {
+    setPageIndex(index);
+    setAnimClass(direction === "next" ? "anim-next" : "anim-prev");
+  };
+
+  const goNext = () => {
+    if (pageIndex >= total - 1) {
+      onNext();
+      return;
+    }
+    goToPage(pageIndex + 1, "next");
+  };
+
+  const goPrev = () => {
+    if (pageIndex <= 0) return;
+    goToPage(pageIndex - 1, "prev");
+  };
+
+  const onPointerDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragStart.current = { x: e.clientX, y: e.clientY };
+    dragDirection.current = null;
+    if (e.currentTarget.setPointerCapture) {
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch (err) {
+        // אפשר להתעלם
+      }
+    }
+  };
+
+  const onPointerMove = (e) => {
+    const start = dragStart.current;
+    if (!start) return;
+
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+
+    if (!dragDirection.current) {
+      if (
+        Math.abs(dx) > SWIPE_DIRECTION_LOCK_THRESHOLD ||
+        Math.abs(dy) > SWIPE_DIRECTION_LOCK_THRESHOLD
+      ) {
+        dragDirection.current = Math.abs(dx) > Math.abs(dy) ? "horizontal" : "vertical";
+      }
+    }
+
+    if (dragDirection.current === "horizontal" && e.cancelable) {
+      e.preventDefault();
+    }
+  };
+
+  const onPointerUp = (e) => {
+    const start = dragStart.current;
+    const direction = dragDirection.current;
+    dragStart.current = null;
+    dragDirection.current = null;
+    if (!start) return;
+    if (direction !== "horizontal") return;
+
+    const dx = e.clientX - start.x;
+    if (Math.abs(dx) < SWIPE_MIN_DISTANCE) return;
+    if (dx < 0) goNext();
+    else goPrev();
+  };
+
+  const onPointerCancel = () => {
+    dragStart.current = null;
+    dragDirection.current = null;
+  };
 
   return (
-    <div className="screen screen-scroll">
-      <Bg />
-      <div className="about-card" />
-      <p className="about-title" dir="auto">
-        רס"ן אומרי חי בן משה
-      </p>
-      <div className="about-divider" />
-      <div
-        className={`about-profile-wrap ${shrunk ? "about-profile-small" : "about-profile-large"}`}
-      >
-        <img alt='רס"ן אומרי חי בן משה' className="about-profile-img" src={profileImgAbout} />
+    <div className="screen book-screen" dir="auto">
+      <div className="book-header">
+        <img
+          alt='רס"ן אומרי חי בן משה'
+          className="book-header-img"
+          src={profileImgAbout}
+        />
+        <p className="book-header-title" dir="auto">
+          רס"ן אומרי חי בן משה
+        </p>
       </div>
-      <p
-        className={`content-text about-text-centered about-fade ${
-          textVisible ? "about-fade-visible" : "about-fade-hidden"
-        }`}
-        dir="auto"
+
+      <div
+        className="book-card"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
+        onPointerLeave={onPointerCancel}
       >
-        {ABOUT_TEXT}
-      </p>
-      <div className="content-next-btn-wrap">
-        <NextButton onClick={onNext} disabled={!buttonEnabled} label="המשך !" />
+        <div
+          key={pageIndex}
+          className={`book-page-inner ${animClass}`}
+          dir="auto"
+          onAnimationEnd={() => setAnimClass("")}
+        >
+          {pages[pageIndex]}
+        </div>
+
+        <button
+          type="button"
+          className="book-nav-btn book-nav-prev"
+          onClick={goPrev}
+          disabled={pageIndex === 0}
+          aria-label="העמוד הקודם"
+        >
+          <ArrowRight size={20} />
+        </button>
+
+        <div className="book-page-counter">
+          {pageIndex + 1} / {total}
+        </div>
+
+        <button
+          type="button"
+          className="book-nav-btn book-nav-next"
+          onClick={goNext}
+          aria-label="העמוד הבא"
+        >
+          <ArrowLeft size={20} />
+        </button>
       </div>
     </div>
   );
@@ -442,7 +747,6 @@ function AboutScreen({ onNext }) {
 function CurriculumScreen({ onNext }) {
   return (
     <div className="screen screen-scroll">
-      <Bg />
       <div className="about-card" />
       <p className="about-title" dir="auto">
         על הלומדה
@@ -458,14 +762,10 @@ function CurriculumScreen({ onNext }) {
   );
 }
 
-
-// ===== רכיב: בועת נושא (מסך הנושאים החדש) =====
-// כל בועה = תמונת פרופיל עגולה שחופפת לכרטיס גרדיאנט, "חצי עיגול" דקורטיבי בתפר,
-// תווית, מונה נושאים וכפתור הרחבה קטן בפינה.
+// ===== רכיב: בועת נושא =====
 function TopicBubble({ topic, onSelect }) {
   const { label, count, profileImg, halfCircleImg, top, left, width, wide } = topic;
 
-  // שתי "פרסטים" של יחסים פנימיים: כרטיס רגיל (144px) וכרטיס רחב (הכרטיס התחתון, 320px)
   const preset = wide
     ? { cardTop: 59, cardHeight: 142, labelTop: 114, countTop: 145, badgeTop: 158, arrowTop: 162 }
     : { cardTop: 59, cardHeight: 118, labelTop: 97, countTop: 128.5, badgeTop: 139.6, arrowTop: 143.78 };
@@ -519,22 +819,17 @@ function TopicBubble({ topic, onSelect }) {
   );
 }
 
-// ===== רכיב: אייקון פלייסהולדר קטן לפי סוג תוכן (וידאו / טקסט / שיר) =====
+// ===== רכיב: אייקון פלייסהולדר קטן לפי סוג תוכן =====
 function TopicTypeIcon({ type, size = 18 }) {
   if (type === "song") return <Disc3 size={size} />;
   if (type === "video") return <Tv size={size} />;
   return <PenLine size={size} />;
 }
 
-// ===== מסך: עמוד נושא פרטני (ערכים / המקצוע הצבאי / צבא וחברה / פיתוח אישי / מנהיגות ופיקוד) =====
-// רכיב גנרי אחד שמתאים לכל 5 העמודים, כי הם חולקים אותה תבנית עיצובית בפיגמה:
-// רקע ייחודי לנושא, כרטיס לבן עם כותרת, רשימת שורות צבעוניות עם מספור גדול ברקע, וכפתור חזרה.
-// כל שורה ניתנת ללחיצה - ולוחצים עליה עוברים לעמוד התוכן שלה (onSelectItem).
+// ===== מסך: עמוד נושא פרטני =====
 function TopicDetailScreen({ topic, onBack, onSelectItem }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
-      <img alt="" className="topic-detail-bg" src={topic.bgImg} />
-
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
         <ArrowRight size={20} color="#0a1416" />
       </button>
@@ -561,7 +856,6 @@ function TopicDetailScreen({ topic, onBack, onSelectItem }) {
                 <p className="topic-detail-row-label">{item.label}</p>
                 {item.subtitle && <p className="topic-detail-row-subtitle">{item.subtitle}</p>}
               </div>
-              {/* פלייסהולדר: אייקון לפי סוג התוכן, עד שתתווסף תמונה אמיתית לכל תת-נושא */}
               <span className="topic-detail-row-thumb">
                 <TopicTypeIcon type={item.type} />
               </span>
@@ -577,15 +871,13 @@ function TopicDetailScreen({ topic, onBack, onSelectItem }) {
   );
 }
 
-// ===== מסך: תוכן תת-נושא מסוג "שיר" (בהשראת "קודקוד לואי" / "האזנה מופעלת") =====
+// ===== מסך: תוכן תת-נושא מסוג "שיר" =====
 function SongItemScreen({ topic, item, onBack }) {
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef(null);
 
   const toggle = () => {
     const audio = audioRef.current;
-    // ⚠️ אין עדיין קובץ שמע אמיתי (item.audioSrc) - כרגע רק מחליף מצב ויזואלית.
-    // כשיהיה קובץ שמע, הוסף audioSrc ל-item והשמעה תעבוד בפועל.
     if (!audio || !item.audioSrc) {
       setPlaying((v) => !v);
       return;
@@ -597,8 +889,6 @@ function SongItemScreen({ topic, item, onBack }) {
 
   return (
     <div className="screen screen-scroll topic-detail-screen">
-      <img alt="" className="topic-detail-bg" src={topic.bgImg} />
-
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
         <ArrowRight size={20} color="#0a1416" />
       </button>
@@ -646,12 +936,10 @@ function SongItemScreen({ topic, item, onBack }) {
   );
 }
 
-// ===== מסך: תוכן תת-נושא מסוג "סרטון" (פלייסהולדר טלוויזיה) =====
+// ===== מסך: תוכן תת-נושא מסוג "סרטון" =====
 function VideoItemScreen({ topic, item, onBack }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
-      <img alt="" className="topic-detail-bg" src={topic.bgImg} />
-
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
         <ArrowRight size={20} color="#0a1416" />
       </button>
@@ -684,12 +972,10 @@ function VideoItemScreen({ topic, item, onBack }) {
   );
 }
 
-// ===== מסך: תוכן תת-נושא מסוג "טקסט" (פלייסהולדר "מישהו כותב") =====
+// ===== מסך: תוכן תת-נושא מסוג "טקסט" =====
 function TextItemScreen({ topic, item, onBack }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
-      <img alt="" className="topic-detail-bg" src={topic.bgImg} />
-
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
         <ArrowRight size={20} color="#0a1416" />
       </button>
@@ -718,12 +1004,10 @@ function TextItemScreen({ topic, item, onBack }) {
   );
 }
 
-// ===== מסך: רשת נושאים (עודכן לפי Figma "דף נושאים עידכון") =====
+// ===== מסך: רשת נושאים =====
 function TopicsScreen({ onAbout, onSelectTopic }) {
   return (
     <div className="screen screen-scroll topics2-screen">
-      <img alt="" className="topics2-bg" src={topicsBg} />
-
       <p className="topics2-title" dir="auto">
         לומדה לזכרו של רס"ן אומרי בן משה הי'ד
       </p>
@@ -793,5 +1077,14 @@ export default function App() {
     else content = <TextItemScreen topic={selectedTopic} item={selectedItem} onBack={backToTopicDetail} />;
   }
 
-  return <div className="app-root">{content}</div>;
+  // ===== קביעת תמונת הרקע של המסך הנוכחי (עבור שכבת הרקע במסך המלא) =====
+  let currentBg = bgImg;
+  if (screen === "topics") currentBg = topicsBg;
+  else if ((screen === "topicDetail" || screen === "item") && selectedTopic) currentBg = selectedTopic.bgImg;
+
+  return (
+    <AppScaleWrapper bgSrc={currentBg}>
+      <div className="app-root">{content}</div>
+    </AppScaleWrapper>
+  );
 }
