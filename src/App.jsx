@@ -10,6 +10,19 @@ import interviewAudio from "./videooraudio/Interviwsummery.mp4";
 import mission from "./videooraudio/mission.mp4";
 import lastcommend from "./videooraudio/last-commend-890.mp4";
 
+// תמונות לצד כול נושא 
+
+import birdsimg from "./assets/images/subtitle/birdsimg.png";
+import doorimg from "./assets/images/subtitle/doorimg.png";
+import five from "./assets/images/subtitle/five.png";
+import hammerimg from "./assets/images/subtitle/hammerimg.png";
+import handsimg from "./assets/images/subtitle/handsimg.png";
+import lightimg from "./assets/images/subtitle/lightimg.png";
+import noteimg from "./assets/images/subtitle/noteimg.png";
+import tenimg from "./assets/images/subtitle/tenimg.png";
+import walkimg from "./assets/images/subtitle/walkimg.png";
+
+
 // ===== תמונות מסך הנושאים החדש (מ-Figma, node 1:393 "דף נושאים עידכון") =====
 // const topicsBg =
 //   "https://www.figma.com/api/mcp/asset/479cb980-4b60-4895-8e17-e4aa526bce04";
@@ -144,8 +157,11 @@ const CURRICULUM_TEXT = Array(12).fill("מלל מלל מלל מלל").join("\n")
 const PLACEHOLDER_BODY = Array(6).fill("מלל מלל מלל מלל מלל מלל").join("\n");
 
 // ===== ציטוט למסך הנושאים החדש =====
-const TOPICS_QUOTE =
-  "“ מלל מלל מלל מלל מלל מלל מלל מלל מלל מלל מלל מלל “";
+const QUOTES = [
+  "“ מלל 1“",
+  "“ תוכן 2“",
+  "“ משפט 3 “",
+];
 
 // ===== תמונות רקע + עיטור תחתון לכל עמוד נושא =====
 const topicBg = {
@@ -170,8 +186,8 @@ const TOPICS = [
     id: "values",
     label: "ערכים",
     count: 5,
-    profileImg: profileValues,
-    halfCircleImg: halfCircleBrown,
+    // profileImg: profileValues,
+    // halfCircleImg: halfCircleBrown,
     top: 294,
     left: 217,
     width: 144,
@@ -180,6 +196,7 @@ const TOPICS = [
     bottomDecorImg: topicBottomDecor.values,
     items: [
       { id: "mission", label: "שליחות", type: "text",   
+                image: lightimg,
         heading:`מחברת 3 כתום – מסע פיקוד – יום הזיכרון `,
         // date: "12.03.2008",
         body:`יום הזיכרון תשפ"ד
@@ -193,6 +210,7 @@ const TOPICS = [
       {
         id: "purity",
         label: "טוהר הנשק",
+        image: purityimg,
         // subtitle: "אבן מארץ ישראל",
         type: "song",
         heading: `סימולציות פיקודיות + דילמות מוסריות`,
@@ -208,7 +226,9 @@ const TOPICS = [
 
 `      },
 
-      { id: "statemanship", label: "ממלכתיות", type: "text" ,       
+      { id: "statemanship", label: "ממלכתיות", type: "text" ,  
+                image: handsimg,
+     
         // heading: `סימולציות פיקודיות + דילמות מוסריות`,
         date:` כ"ד אייר 30.5`	  ,
     body:
@@ -225,6 +245,8 @@ const TOPICS = [
 },
 
       { id: "personal-example", label: "דוגמא אישית", 
+                        image: walkimg,
+
         
         // type: "video" ,
         // date: "12.03.2008",
@@ -237,7 +259,9 @@ const TOPICS = [
         `      
 
       },
-      { id: "lidership", label: "מנהיגות", 
+      { id: "lidership", label: "מנהיגות",
+        image: hammerimg,
+ 
         // type: "video" ,
         date: "10.10.24",
          heading: `הנידון: מכתב להורי הלוחמים`,
@@ -312,8 +336,8 @@ Omribm100@gmail.com				בכבוד רב,
     id: "military",
     label: "המקצוע הצבאי",
     count: 3,
-    profileImg: profileMilitary,
-    halfCircleImg: halfCircleBrown2,
+    // profileImg: profileMilitary,
+    // halfCircleImg: halfCircleBrown2,
     top: 294,
     left: 42,
     width: 144,
@@ -365,8 +389,8 @@ Omribm100@gmail.com				בכבוד רב,
     id: "leadership",
     label: "מנהיגות ופיקוד",
     count: 4,
-    profileImg: profileLeadership,
-    halfCircleImg: halfCircleBrown,
+    // profileImg: profileLeadership,
+    // halfCircleImg: halfCircleBrown,
     top: 463,
     left: 42,
     width: 144,
@@ -375,10 +399,16 @@ Omribm100@gmail.com				בכבוד רב,
     bottomDecorImg: topicBottomDecor.leadership,
     items: [
       { id: "role-entry", label: "כניסה לתפקיד", 
+         image: doorimg,
+
         type: "text" },
       { id: "procedures", label: "נהלים", 
+          image: noteimg,
+
         type: "text" },
       { id: "command-spirit", label: "רוח המפקד", 
+        image: birdsimg,
+
          type: "text" },
       { id: "last-commend", label: `הפקודה האחרונה 890`, 
          type: "video" ,videoSrc:lastcommend,
@@ -413,15 +443,18 @@ Omribm100@gmail.com				בכבוד רב,
 
 `
         },
-      { id: "top-ten", label: "טופ 10 למפקד", type: "text" },
+      { id: "top-ten", label: "טופ 10 למפקד", type: "text" ,
+         image: tenimg,
+
+      },
     ],
   },
   {
     id: "growth",
     label: "פיתוח אישי",
     count: 4,
-    profileImg: profileGrowth,
-    halfCircleImg: halfCircleBrown,
+    // profileImg: profileGrowth,
+    // halfCircleImg: halfCircleBrown,
     top: 463,
     left: 217,
     width: 144,
@@ -469,8 +502,8 @@ Omribm100@gmail.com				בכבוד רב,
     id: "society",
     label: "צבא וחברה",
     count: 5,
-    profileImg: profileSociety,
-    halfCircleImg: halfCircleBrown,
+    // profileImg: profileSociety,
+    // halfCircleImg: halfCircleBrown,
     top: 636,
     left: 41,
     width: 320,
@@ -749,6 +782,114 @@ function BgDecor() {
 // ===== רכיב: כרטיס ציטוט =====
 function QuoteCard({ top, height }) {
   return <div className="quote-card" style={{ top, height }} />;
+}
+
+
+
+
+// רכיב קרוסלה 
+
+function QuotesCarousel({ quotes, onSelect, intervalMs = 4000 }) {
+  const total = quotes.length;
+  const [index, setIndex] = useState(0);
+  const [anim, setAnim] = useState("");
+  const timerRef = useRef(null);
+  const dragStart = useRef(null);
+  const draggedRef = useRef(false);
+
+  const resetAutoplay = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (total <= 1) return;
+    timerRef.current = setInterval(() => {
+      setIndex((prev) => (prev + 1) % total);
+      setAnim("anim-next");
+    }, intervalMs);
+  };
+
+  useEffect(() => {
+    resetAutoplay();
+    return () => clearInterval(timerRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total, intervalMs]);
+
+  const goNext = () => {
+    setIndex((prev) => (prev + 1) % total);
+    setAnim("anim-next");
+    resetAutoplay();
+  };
+
+  const goPrev = () => {
+    setIndex((prev) => (prev - 1 + total) % total);
+    setAnim("anim-prev");
+    resetAutoplay();
+  };
+
+  const onPointerDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragStart.current = { x: e.clientX, y: e.clientY };
+    draggedRef.current = false;
+    if (e.currentTarget.setPointerCapture) {
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch (err) {}
+    }
+  };
+
+  const onPointerMove = (e) => {
+    const start = dragStart.current;
+    if (!start) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    if (Math.abs(dx) > 8 || Math.abs(dy) > 8) draggedRef.current = true;
+    if (Math.abs(dx) > Math.abs(dy) && e.cancelable) e.preventDefault();
+  };
+
+  const onPointerUp = (e) => {
+    const start = dragStart.current;
+    dragStart.current = null;
+    if (!start) return;
+    const dx = e.clientX - start.x;
+    if (Math.abs(dx) >= 40) {
+      if (dx < 0) goNext();
+      else goPrev();
+    } else if (!draggedRef.current) {
+      onSelect();
+    }
+  };
+
+  const onPointerCancel = () => {
+    dragStart.current = null;
+  };
+
+  return (
+    <div
+      className="quotes-carousel"
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
+    >
+      <QuoteCard top={155} height={139} />
+      <p
+        key={index}
+        className={`quote-carousel-text ${anim}`}
+        dir="auto"
+        onAnimationEnd={() => setAnim("")}
+      >
+        {quotes[index]}
+      </p>
+      {total > 1 && (
+        <div className="quote-carousel-dots">
+          {quotes.map((_, i) => (
+            <span
+              key={i}
+              className={`quote-carousel-dot ${i === index ? "active" : ""}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ===== רכיב: מרכאה פותחת =====
@@ -1062,7 +1203,7 @@ function TopicBubble({ topic, onSelect }) {
       onClick={() => onSelect(topic)}
       dir="auto"
     >
-      <img
+      {/* <img
         alt=""
         className="topic-bubble-halfcircle"
         src={halfCircleImg}
@@ -1072,17 +1213,17 @@ function TopicBubble({ topic, onSelect }) {
           width: halfCircleW,
           height: halfCircleH,
         }}
-      />
+      /> */}
       <div
         className="topic-bubble-card"
         style={{ top: preset.cardTop, height: preset.cardHeight }}
       />
-      <img
+      {/* <img
         alt=""
         className="topic-bubble-profile"
         src={profileImg}
         style={{ left: (width - profileSize) / 2, width: profileSize, height: profileSize }}
-      />
+      /> */}
       <span className="topic-bubble-label" style={{ top: preset.labelTop }}>
         {label}
       </span>
@@ -1115,7 +1256,7 @@ function TopicDetailScreen({ topic, onBack, onSelectItem }) {
       </button>
 
       <div className="topic-detail-card">
-        <div className="topic-detail-handle" />
+        {/* <div className="topic-detail-handle" /> */}
         <p className="topic-detail-title" dir="auto">
           {topic.label}
         </p>
@@ -1136,9 +1277,15 @@ function TopicDetailScreen({ topic, onBack, onSelectItem }) {
                 <p className="topic-detail-row-label">{item.label}</p>
                 {item.subtitle && <p className="topic-detail-row-subtitle">{item.subtitle}</p>}
               </div>
-              <span className="topic-detail-row-thumb">
-                <TopicTypeIcon type={item.type} />
-              </span>
+    <span
+  className={`topic-detail-row-thumb ${item.image ? "topic-detail-row-thumb--image" : ""}`}
+>
+  {item.image ? (
+    <img src={item.image} alt="" className="topic-detail-row-thumb-img" />
+  ) : (
+    <TopicTypeIcon type={item.type} />
+  )}
+</span>
             </button>
           ))}
         </div>
@@ -1252,7 +1399,7 @@ function SongItemScreen({ topic, item, onBack }) {
       </button>
 
       <div className="topic-detail-card item-card">
-        <div className="topic-detail-handle" />
+        {/* <div className="topic-detail-handle" /> */}
 
         <p className="topic-detail-title item-title" dir="auto">
           {item.label}
@@ -1289,7 +1436,7 @@ function VideoItemScreen({ topic, item, onBack }) {
       </button>
 
       <div className="topic-detail-card item-card">
-        <div className="topic-detail-handle" />
+        {/* <div className="topic-detail-handle" /> */}
 
         <p className="topic-detail-title item-title" dir="auto">
           {item.label}
@@ -1329,7 +1476,7 @@ function TextItemScreen({ topic, item, onBack }) {
       </button>
 
       <div className="topic-detail-card item-card">
-        <div className="topic-detail-handle" />
+        {/* <div className="topic-detail-handle" /> */}
         <p className="topic-detail-title item-title" dir="auto">
           {item.label}
         </p>
@@ -1374,13 +1521,7 @@ function TopicsScreen({ onAbout, onSelectTopic }) {
         לומדה לזכרו של רס"ן אומרי בן משה הי'ד
       </p>
 
-      <button className="topics2-quote-wrap" onClick={onAbout}>
-        <QuoteCard top={155} height={139} />
-        {/* <OpeningQuote top={175} /> */}
-        <p className="topics2-quote-text" dir="auto">
-          {TOPICS_QUOTE}
-        </p>
-      </button>
+    <QuotesCarousel quotes={QUOTES} onSelect={onAbout} />
 
       <img alt="" className="topics2-dots" src={dotsGroup} />
 
@@ -1420,7 +1561,7 @@ export default function App() {
 
   let content = null;
 
-  if (screen === "intro") content = <IntroScreen onStart={() => setScreen("slide1")} />;
+  if (screen === "intro") content = <IntroScreen onStart={() => setScreen("topics")} />;
   else if (screen === "slide1") content = <Slide1 onNext={() => setScreen("slide2")} />;
   else if (screen === "slide2") content = <Slide2 onNext={() => setScreen("about")} />;
   else if (screen === "about") content = <AboutScreen onNext={() => setScreen("curriculum")} />;
