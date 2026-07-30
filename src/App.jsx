@@ -21,6 +21,7 @@ import lightimg from "./assets/images/subtitle/lightimg.png";
 import noteimg from "./assets/images/subtitle/noteimg.png";
 import tenimg from "./assets/images/subtitle/tenimg.png";
 import walkimg from "./assets/images/subtitle/walkimg.png";
+import purityimg from "./assets/images/subtitle/purity.png";
 
 
 // ===== תמונות מסך הנושאים החדש (מ-Figma, node 1:393 "דף נושאים עידכון") =====
