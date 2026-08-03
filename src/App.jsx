@@ -169,7 +169,7 @@ const topicBg = {
   values: "https://www.figma.com/api/mcp/asset/1747ebf8-21a4-41c2-9466-15c2e528afa1",
   military: "https://www.figma.com/api/mcp/asset/130cb352-162b-46e9-921e-8410577511ef",
   society: "https://www.figma.com/api/mcp/asset/982476d5-0624-49c1-aa39-1b0e6c4dc12d",
-  growth: "https://www.figma.com/api/mcp/asset/913977a7-9cbb-414e-a9cc-1b0ec2bc5c67",
+  growth: bgImg,
   leadership: "https://www.figma.com/api/mcp/asset/04962e14-c6a7-4b88-8264-22e0ab326644",
 };
 const topicBottomDecor = {
@@ -478,11 +478,32 @@ Omribm100@gmail.com				בכבוד רב,
       { id: "goals", label: 'יעדים לבה"ד 1',      
              date: `26.03.2024` ,
            body:
-  `` },
+  `להשתפר בכש״ג בכל התחומים.
+ללמוד עוד על מקראות ישראל.
+להתמקצע בלחימת פרט ובלחימת מחלקה.
+להכיר אנשים וחברים חדשים.
+להתנדב יותר.
+ללמוד יותר על עצמי במהלך הקורס.
+Top 10 למחלקה שלי ולעצמי.
+לגבש שאיפות ועקרונות פיקודיות.
+לסכם כל שבוע.
+להקפיד על לימוד וליצור חברותא.
+לעשות תפקיד רוחב.
+לזכור להסתכל על עצמי כמ״מ כל הזמן.` },
       { id: "approach", label: "תפיסה פיקודית", 
                   date: `26.03.2024` ,
            body:
-  `` },
+  `מה נדרש ממפקד לוחם?
+מקצועיות בכל פעולה ובכל דבר.
+דאגה ואהבה לפקודיו
+קור רוח בכל סיטואציה
+דוגמה אישית כדרך חיים
+ערך מוסף
+לחיות בשיפור תמיד
+ערכים מובילים:
+שליחות
+משימתיות
+מצויינות` },
       { id: "beginning", label: "תחילת הדרך",        
            date: `26.03.2024` ,
            body:

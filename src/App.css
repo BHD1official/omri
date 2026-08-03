@@ -4,7 +4,7 @@
    אם יש לך את קובץ הפונט, הוסף כאן @font-face ותחליף את font-family למטה. */
 @font-face {
   font-family: Galacti Condensed;
-  src: url();
+  src: url(fonts/egosansnarrow-regular-webfont.woff);
 }
 /* =========================================================
    רספונסיביות גלובלית: כל העיצוב מבוסס על מסגרת פיגמה קבועה
