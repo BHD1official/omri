@@ -744,7 +744,7 @@ body {
   color: #f9f9ee;
   font-family: 'Heebo', sans-serif;
   font-weight: 900;
-  font-size: 21.338px;
+  font-size: 19.338px;
   white-space: nowrap;
   z-index: 2;
 }
@@ -769,13 +769,16 @@ body {
   border-radius: 50%;
   background: rgba(249, 249, 238, 0.35);
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .topic-bubble-arrow {
-  position: absolute;
   color: #f9f9ee;
   z-index: 3;
 }
+
 
 .topics2-bottom-decor {
   position: absolute;
@@ -1274,4 +1277,28 @@ body {
   height: 72px;
   background: transparent;
   border-radius: 16px;
+}
+
+.skip-icon {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skip-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.skip-icon span {
+  position: absolute;
+  font-family: "Heebo", sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  color: currentColor;
+  pointer-events: none;
 }

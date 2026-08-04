@@ -9,6 +9,8 @@ import profileImgAbout from "./assets/images/profile-about.png";
 import interviewAudio from "./videooraudio/Interviwsummery.mp4";
 import mission from "./videooraudio/mission.mp4";
 import lastcommend from "./videooraudio/last-commend-890.mp4";
+import { RotateCcw, RotateCw } from "lucide-react";
+
 
 // תמונות לצד כול נושא 
 
@@ -166,18 +168,18 @@ const QUOTES = [
 
 // ===== תמונות רקע + עיטור תחתון לכל עמוד נושא =====
 const topicBg = {
-  values: "https://www.figma.com/api/mcp/asset/1747ebf8-21a4-41c2-9466-15c2e528afa1",
-  military: "https://www.figma.com/api/mcp/asset/130cb352-162b-46e9-921e-8410577511ef",
-  society: "https://www.figma.com/api/mcp/asset/982476d5-0624-49c1-aa39-1b0e6c4dc12d",
+  values: bgImg,
+  military: bgImg,
+  society:bgImg,
   growth: bgImg,
-  leadership: "https://www.figma.com/api/mcp/asset/04962e14-c6a7-4b88-8264-22e0ab326644",
+  leadership:bgImg,
 };
 const topicBottomDecor = {
-  values: "https://www.figma.com/api/mcp/asset/8100bbd5-1de8-48c5-883c-9486eb0d4081",
-  military: "https://www.figma.com/api/mcp/asset/9ff48cfa-433c-4b8e-907c-d3587377a432",
-  society: "https://www.figma.com/api/mcp/asset/6fbaed65-966d-494d-b0e6-e7351f703856",
-  growth: "https://www.figma.com/api/mcp/asset/a8341e5e-f028-4914-a65c-eba7f2a3d585",
-  leadership: "https://www.figma.com/api/mcp/asset/c4159b5d-a4da-4c6a-bb5d-c0d5bf3ccf33",
+  values: decorImg,
+  military: decorImg,
+  society:decorImg,
+  growth: decorImg,
+  leadership: decorImg,
 };
 
 const ROW_COLORS = ["#e7f2ee", "#bed2d1", "#ebdabc", "#fefefb", "#f2eadf"];
@@ -202,8 +204,8 @@ const TOPICS = [
         // date: "12.03.2008",
         body:`יום הזיכרון תשפ"ד
 השנה הרגשתי את העוצמות של הערב הזה באופן שונה משהרגשתי בשנים הקודמות. 
-אולי זה כי אנחנו בעיצומה של מלחמת "חרבות ברזל", אולי זה כי התבגרתי ואולי כי זו השנה הראשונה שאני חווה את היום הזזה כאבא. 
-אני ממש מוטרד בשבועות האחרונים כשאני נתקל בפסימיות וייאוש מכל ערב, חברים, משפחה, אנשים חוששים מחורבן, מכישלון, מלהפסיד לאויב.. איך אפשר לניות אדם רציונלי ולחשוב שזה אפשרי בכלל? ההיסטוריה הוכיחה אחרת? בדיונים שלי עם אנשים בנושאים האלו אני לעיתים מרגיש "מרוקו", אני מרגיש שיש לי הרבה מה לומר ושאנשים יופתעו מדבריי וייעשו אופטימים לרגע, אולי לרגע אני הוא זה שנעשה נאיבי, זו בכלל לא אמורה להיות מטרתי, אני צריך להשמיע את דעתי כי אני חושב שהיא צודקת וכמובן להיות בבגרות נפשית לדעת להקשיב ולהאמין שהאמירות שלי משפיעות בטווח הארוך – לא לרצות לשנות אחרים, זו גאווה. 
+אולי זה כי אנחנו בעיצומה של מלחמת "חרבות ברזל", אולי זה כי התבגרתי ואולי כי זו השנה הראשונה שאני חווה את היום הזה כאבא. 
+אני ממש מוטרד בשבועות האחרונים כשאני נתקל בפסימיות וייאוש מכל עבר, חברים, משפחה, אנשים חוששים מחורבן, מכישלון, מלהפסיד לאויב.. איך אפשר להיות אדם רציונלי ולחשוב שזה אפשרי בכלל? ההיסטוריה הוכיחה אחרת? בדיונים שלי עם אנשים בנושאים האלו אני לעיתים מרגיש "מרוקו", אני מרגיש שיש לי הרבה מה לומר ושאנשים יופתעו מדבריי וייעשו אופטימים לרגע, אולי לרגע אני הוא זה שנעשה נאיבי, זו בכלל לא אמורה להיות מטרתי, אני צריך להשמיע את דעתי כי אני חושב שהיא צודקת וכמובן להיות בבגרות נפשית לדעת להקשיב ולהאמין שהאמירות שלי משפיעות בטווח הארוך – לא לרצות לשנות אחרים, זו גאווה. 
 השנה הצטרפו למנגל הגיבורים אנשים נוספים, לצערי. 
 את חלקם הכרתי, כחברים, על חלקם פיקדתי וחלקם פיקדו עליי. מטורף להיות בסיטואציה הזו חלק מדור התקומה של עם ישראל, להיות שותף מלא של שיבת ישראל לארצו. 
 ` },
@@ -222,7 +224,7 @@ const TOPICS = [
 נדרש מאיתנו לשלב בין שכל לבין רגש ולדעת איך לפעול בכל סיטואציה. 
 
 איפה ההרתעה שלי כלוחם? 
-עליי לפעול במקצועיות ואם צריך לאזוק או להפעיל כוח מותב שנעשה זאת. 
+עליי לפעול במקצועיות ואם צריך לאזוק או להפעיל כוח מוטב שנעשה זאת. 
 אין שום צורך להשתמש באלימות סתם ללא סיבה
 
 `      },
@@ -307,13 +309,13 @@ Omribm100@gmail.com				בכבוד רב,
 התחביבים שלי: ספורט (כדורסל, ריצות ארוכות), קריאת ספרים, טיולים בארץ, בירות וחברים. 
 שירות צבאי: גיוס מרץ 18' , הכשרה וקו עזה, קורס מכי"ם, מ"כ בבא"ח 8 חודשים, קורס קצינים, מפק"ץ לת"ק פל' א', מפק"ץ בגפן, סמ"פ א', יציאה ללימודים שנתיים במלט"ק. במלחמה הייתי חפ"ק ב' בבארי, לאחר מכן קיבלתי פיקוד על צוות אוה"ד 5 והייתי איתם עד מחנות המרכז ושחררתי אותם, לאחר מכן חפ"ק א' במחנות המרכז וחזרה ללימודים.
 חלק שני –למה  והמשימה שלנו
-הרבה אנשים נוהגים לזלזל ב'למה' אנחנו עושים את מה שאנחנו עושים, מדברים על  כך קצת בטירונות וממשיכים הלאה, כי זה כבר לא שייך לאנשים בוגרים. זה שטויות. 'מי שיש לו למה שמענו הוא יחיה יוכל לשאת כמעט כל איך' (ניטשה). אנחנו במלחמה קיומית נגד רשע טהור שרוצה להשמיד אותנו בגלל עצם היותנו, לא משום סיבה אחרת, אך ורק כי אנחנו יהודים, ישראליים שחיים בארץ ישראל. אנחנו יוצאים למלחמה כדי לאפשר למשפחות שלנו להמשיך לקום בבוקר ולעבודה וללימודים, כדי לאפשר לחברים שלנו באזרחות לצאת לשתות בירה ולאכול במסעדה, כדי לאפשר למדינה שלנו להמשיך להתפתח ולהתקיים ולהיות מדינה מוצלחת, כדי להמשיך להתיישב בארץ הזו ולפתח אותה עוד ועוד. כל אחד לפי מה שמחזיק ונותן לו את הכוחות. אנחנו דור העתיד, אנחנו כותבים עכשיו את ההיסטוריה של מדינת ישראל ואפילו של העולם כולו, אנחנו חלק ממשהו עצום, אל תזלזלו בזה, תבינו את זה, תתחברו לגודל האחריות המונחת על כתפינו, תחשבו על היקרים לכם, הכול זה בשבילם, בשביל עתיד המדינה והעם שלנו.
+הרבה אנשים נוהגים לזלזל ב'למה' אנחנו עושים את מה שאנחנו עושים, מדברים על  כך קצת בטירונות וממשיכים הלאה, כי זה כבר לא שייך לאנשים בוגרים. זה שטויות. 'מי שיש לו למה שלמענו הוא יחיה יוכל לשאת כמעט כל איך' (ניטשה). אנחנו במלחמה קיומית נגד רשע טהור שרוצה להשמיד אותנו בגלל עצם היותנו, לא משום סיבה אחרת, אך ורק כי אנחנו יהודים, ישראליים שחיים בארץ ישראל. אנחנו יוצאים למלחמה כדי לאפשר למשפחות שלנו להמשיך לקום בבוקר לעבודה וללימודים, כדי לאפשר לחברים שלנו באזרחות לצאת לשתות בירה ולאכול במסעדה, כדי לאפשר למדינה שלנו להמשיך להתפתח ולהתקיים ולהיות מדינה מוצלחת, כדי להמשיך להתיישב בארץ הזו ולפתח אותה עוד ועוד. כל אחד לפי מה שמחזיק ונותן לו את הכוחות. אנחנו דור העתיד, אנחנו כותבים עכשיו את ההיסטוריה של מדינת ישראל ואפילו של העולם כולו, אנחנו חלק ממשהו עצום, אל תזלזלו בזה, תבינו את זה, תתחברו לגודל האחריות המונחת על כתפינו, תחשבו על היקרים לכם, הכול זה בשבילם, בשביל עתיד המדינה והעם שלנו.
 המשימה שלנו היא לנצח בקרב, כלומר להכריע את האויב ולהחזיר את כולם לשלום הביתה.                         אלו 2 הציוויים שלי כמ"פ אבל יחד איתכם כמסגרת פלוגתית. 
 
 חלק שלישי – וודאות 
 החלק הקשה ביותר הוא חוסר הוודאות, כיצורים אנושיים אנחנו רוצים כל הזמן לדעת מה יהיה בעתיד, הבעיה שזה לא אפשרי בשגרה ופי כמה במלחמה, גם ראש הממשלה והרמטכ"ל לא יודעים מה יהיה, הכול משתנה ברגע אחד. יש פה שיקולים עצומים. מה כן אפשר לדעת ? קווים כללים, אנחנו נהיה במלחמה בשנים הקרובות, מה שבטוח בשירות שלכם, איך זה ייראה ? תמרון בלבנון, בעזה, ביו"ש, הכול באש חיה, אמיתי, עם אויב. מה לא יהיה ? חודשי אימון שלמים, יהיו אימוני 'זמן יקר', אימוני נוה"ק ואימוני שמירת כשירות. זו תקופה מאוד מאתגרת אך עם המון הזדמנויות – שירות חוויתי ומשמעותי מאין כמוהו. בשביל זה באתם. 
 חלק רביעי – קווים אדומים
-אני מקווה ובטוח שלא נצטרף להגיע למקומות כאלו, אבל ראוי להציב גבולות.
+אני מקווה ובטוח שלא נצטרך להגיע למקומות כאלו, אבל ראוי להציב גבולות.
 סמים ואלכוהול
 שילוב ראוי
 אמון 
@@ -360,7 +362,7 @@ Omribm100@gmail.com				בכבוד רב,
 • עבודה מול מקבילים ורמ"מ – כמו שנגעתי, בגפן יש עצמאיות רבה אך ישנה חשיבות גדולה מאוד לשיתוף פעולה עם המקבילים, הידע לא רק אצלי וכדאי לעבוד יחד על הרבה דברים, כדאי להתייעץ ולשתף, זה לא תפקיד תחרותי, המטרה היא הצלחת הצוער – אין עניין בלהיות זאב בודד ולכן החשיבות בלשתף ידע אישי ולשאול מקבילים היא נחוצה להצלחת הצוער שהיא גם ההצלחה של המפק"צ.
 מול רמ"מ הממשק הוא בעיקר באישורי תכניות, אך מפק"צ שיודע ומבין את "העסק" יש לו עצמאות בלתי מוגבלת כמעט, כדאי להתייעץ עם המ"פ, מהניסיון האישי, אך העבודה עצמה היא מאוד לרוץ לבד על הדברים. ברגע שהמפק"צ חד על הרמה המקצועית ויודע לנהל ולפקד על הצוות , המ"פ ישחרר וייתן למפק"צ יד חופשית.
 
-מפק"צ בגפן הוא נציג גדודי של הגדוד שלו, כדאי להיות בקשר עם הצוערים מהחטיבה ומהגדוד בוודאי, להתעניין באנשים, להיות מעורב, להעיר כשצריך ובעיקר לתת המידע ומהניסיון האישי בכל מצב – זהו הצמא הכי גדול של הצוערים – השאלה מה לעשות בכל סיטואציה.
+מפק"צ בגפן הוא נציג גדודי של הגדוד שלו, כדאי להיות בקשר עם הצוערים מהחטיבה ומהגדוד בוודאי, להתעניין באנשים, להיות מעורב, להעיר כשצריך ובעיקר לתת מהמידע ומהניסיון האישי בכל מצב – זהו הצמא הכי גדול של הצוערים – השאלה מה לעשות בכל סיטואציה.
 מפק"צ שמבין את זה הוא בהכרח טוב יותר.` ,
       },
       { id: "war-summary", label: "סיכום מקצועי למלחמה", type: "text" },
@@ -602,6 +604,27 @@ Top 10 למחלקה שלי ולעצמי.
 // ===== הגדרות =====
 const TYPING_SPEED = 120;
 
+// ===== זיכרון: האם המשתמש כבר צפה בשני משפטי הפתיחה (סלייד 1+2) =====
+// שומר דגל ב-localStorage כדי שבביקור חוזר נוכל לדלג ישר לתפריט
+// הנושאים בלי להציג שוב את שני המסכים המונפשים האלה.
+const INTRO_SLIDES_SEEN_KEY = "omri_intro_slides_seen";
+
+function hasSeenIntroSlides() {
+  try {
+    return window.localStorage.getItem(INTRO_SLIDES_SEEN_KEY) === "1";
+  } catch (err) {
+    return false;
+  }
+}
+
+function markIntroSlidesSeen() {
+  try {
+    window.localStorage.setItem(INTRO_SLIDES_SEEN_KEY, "1");
+  } catch (err) {
+    // אם localStorage לא זמין (מצב פרטי וכו') - פשוט מתעלמים, לא קריטי
+  }
+}
+
 // =========================================================
 // רספונסיביות גלובלית: כל העיצוב ב-CSS בנוי על מסגרת פיגמה
 // קבועה בגודל 402x874. ה-hook הזה מחשב פקטור scale יחיד כך
@@ -709,6 +732,10 @@ function useTypewriter(texts, active) {
     done: totalTyped >= totalChars,
     pause: () => setPaused(true),
     resume: () => setPaused(false),
+    skip: () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      setTotalTyped(totalChars);
+    },
   };
 }
 
@@ -965,8 +992,17 @@ function IntroScreen({ onStart }) {
 }
 
 // ===== מסך: משפט ראשון =====
-function Slide1({ onNext }) {
-  const { displayed, progress, done, pause, resume } = useTypewriter(SLIDE1_TEXTS, true);
+function Slide1({ onNext, allowSkip }) {
+  const { displayed, progress, done, pause, resume, skip } = useTypewriter(SLIDE1_TEXTS, true);
+
+  const handleContinue = () => {
+    if (!done) {
+      if (allowSkip) skip();
+    } else {
+      onNext();
+    }
+  };
+
   return (
     <div
       className="screen"
@@ -984,18 +1020,32 @@ function Slide1({ onNext }) {
         <span className={`typing-cursor ${done ? "cursor-hidden" : "cursor-blink"}`} />
       </p>
       <BgDecor />
-      {done && (
+      {allowSkip ? (
         <div className="next-btn-wrap" style={{ top: 480 }}>
-          <NextButton onClick={onNext} />
+          <NextButton onClick={handleContinue} label={done ? "המשך !" : "דלג"} />
         </div>
+      ) : (
+        done && (
+          <div className="next-btn-wrap" style={{ top: 480 }}>
+            <NextButton onClick={onNext} />
+          </div>
+        )
       )}
     </div>
   );
 }
 
 // ===== מסך: משפט שני =====
-function Slide2({ onNext }) {
-  const { displayed, progress, done, pause, resume } = useTypewriter(SLIDE2_TEXTS, true);
+function Slide2({ onNext, allowSkip }) {
+  const { displayed, progress, done, pause, resume, skip } = useTypewriter(SLIDE2_TEXTS, true);
+
+  const handleContinue = () => {
+    if (!done) {
+      if (allowSkip) skip();
+    } else {
+      onNext();
+    }
+  };
 
   return (
     <div
@@ -1024,10 +1074,16 @@ function Slide2({ onNext }) {
         )}
       </p>
       <BgDecor />
-      {done && (
+      {allowSkip ? (
         <div className="next-btn-wrap" style={{ top: 760 }}>
-          <NextButton onClick={onNext} />
+          <NextButton onClick={handleContinue} label={done ? "המשך !" : "דלג"} />
         </div>
+      ) : (
+        done && (
+          <div className="next-btn-wrap" style={{ top: 760 }}>
+            <NextButton onClick={onNext} />
+          </div>
+        )
       )}
     </div>
   );
@@ -1252,12 +1308,9 @@ function TopicBubble({ topic, onSelect }) {
       <span className="topic-bubble-count" style={{ top: preset.countTop }}>
         {count} נושאים
       </span>
-      <span className="topic-bubble-badge" style={{ top: preset.badgeTop, left: 15 }} />
-      <ArrowLeft
-        className="topic-bubble-arrow"
-        size={13}
-        style={{ top: preset.arrowTop, left: 19.75 }}
-      />
+   <span className="topic-bubble-badge" style={{ top: preset.badgeTop, left: 15 }}>
+  <ArrowLeft className="topic-bubble-arrow" size={13} />
+</span>
     </button>
   );
 }
@@ -1274,7 +1327,10 @@ function TopicDetailScreen({ topic, onBack, onSelectItem }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
-        <ArrowRight size={20} color="#0a1416" />
+        <ArrowRight size={20} color="#0a1416" 
+            style={{ transform: "rotate(180deg)" }}
+/>
+        
       </button>
 
       <div className="topic-detail-card">
@@ -1382,15 +1438,34 @@ function AudioPlayer({ src }) {
     <div className="audio-player" dir="ltr">
       <audio ref={audioRef} src={src} preload="metadata" />
       <div className="audio-player-controls">
-        <button type="button" className="audio-player-skip" onClick={() => skip(-10)} aria-label="10 שניות אחורה">
-          <SkipBack size={18} />
-        </button>
-        <button type="button" className="audio-player-play" onClick={togglePlay} aria-label={playing ? "השהה" : "נגן"}>
+           <button
+  type="button"
+  className="audio-player-skip"
+  onClick={() => skip(-10)}
+  aria-label="10 שניות אחורה"
+>
+  <div className="skip-icon">
+    <RotateCcw size={28} strokeWidth={2} />
+    <span>10</span>
+  </div>
+</button>
+
+     <button type="button" className="audio-player-play" onClick={togglePlay} aria-label={playing ? "השהה" : "נגן"}>
           {playing ? <Pause size={22} fill="#fff" /> : <Play size={22} fill="#fff" />}
         </button>
-        <button type="button" className="audio-player-skip" onClick={() => skip(10)} aria-label="10 שניות קדימה">
-          <SkipForward size={18} />
-        </button>
+
+<button
+  type="button"
+  className="audio-player-skip"
+  onClick={() => skip(10)}
+  aria-label="10 שניות קדימה"
+>
+  <div className="skip-icon">
+    <RotateCw size={28} strokeWidth={2} />
+    <span>10</span>
+  </div>
+</button>
+
       </div>
       <div className="audio-player-seek-row">
         <span className="audio-player-time">{formatTime(currentTime)}</span>
@@ -1417,7 +1492,9 @@ function SongItemScreen({ topic, item, onBack }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
-        <ArrowRight size={20} color="#0a1416" />
+        <ArrowRight size={20} color="#0a1416"  
+           style={{ transform: "rotate(180deg)" }}
+/>
       </button>
 
       <div className="topic-detail-card item-card">
@@ -1454,7 +1531,9 @@ function VideoItemScreen({ topic, item, onBack }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
-        <ArrowRight size={20} color="#0a1416" />
+        <ArrowRight size={20} color="#0a1416"
+            style={{ transform: "rotate(180deg)" }}
+ />
       </button>
 
       <div className="topic-detail-card item-card">
@@ -1466,7 +1545,15 @@ function VideoItemScreen({ topic, item, onBack }) {
         <div className="topic-detail-divider" />
 
         {item.videoSrc && (
-          <video controls className="item-video" src={item.videoSrc} />
+          <video
+            controls
+            playsInline
+            webkit-playsinline="true"
+            x5-playsinline="true"
+            disablePictureInPicture
+            className="item-video"
+            src={item.videoSrc}
+          />
         )}
 
         {item.date && <p className="item-date">{item.date}</p>}
@@ -1494,7 +1581,9 @@ function TextItemScreen({ topic, item, onBack }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
-        <ArrowRight size={20} color="#0a1416" />
+        <ArrowRight size={20} color="#0a1416"   
+          style={{ transform: "rotate(180deg)" }}
+/>
       </button>
 
       <div className="topic-detail-card item-card">
@@ -1568,6 +1657,24 @@ export default function App() {
   const selectedItem =
     (selectedTopic && selectedTopic.items.find((it) => it.id === selectedItemId)) || null;
 
+  // האם המשתמש כבר עבר את שני משפטי הפתיחה (סלייד 1+2) בעבר,
+  // בביקור קודם? נבדק פעם אחת בכניסה לאפליקציה (לפני שמסמנים
+  // את הביקור הנוכחי) - וקובע אם להציג כפתור "דלג" מיידי במסכי
+  // הפתיחה, או לדרוש לצפות בהקלדה עד הסוף (כמו בפעם הראשונה).
+  const [allowSkipIntro] = useState(() => hasSeenIntroSlides());
+
+  // כניסה למסך הפתיח: תמיד עוברים דרך סלייד 1+2 (על אומרי + על
+  // הלומדה מגיעים אחריהם כרגיל). ההבדל בין ביקור ראשון לביקור
+  // חוזר הוא רק אם מוצג כפתור "דלג" מיידי (allowSkipIntro).
+  const handleIntroStart = () => {
+    setScreen("topics");
+  };
+
+  const handleIntroSlidesFinished = () => {
+    markIntroSlidesSeen();
+    setScreen("about");
+  };
+
   const handleSelectTopic = (topic) => {
     setSelectedTopicId(topic.id);
     setScreen("topicDetail");
@@ -1583,9 +1690,11 @@ export default function App() {
 
   let content = null;
 
-  if (screen === "intro") content = <IntroScreen onStart={() => setScreen("topics")} />;
-  else if (screen === "slide1") content = <Slide1 onNext={() => setScreen("slide2")} />;
-  else if (screen === "slide2") content = <Slide2 onNext={() => setScreen("about")} />;
+  if (screen === "intro") content = <IntroScreen onStart={handleIntroStart} />;
+  else if (screen === "slide1")
+    content = <Slide1 onNext={() => setScreen("slide2")} allowSkip={allowSkipIntro} />;
+  else if (screen === "slide2")
+    content = <Slide2 onNext={handleIntroSlidesFinished} allowSkip={allowSkipIntro} />;
   else if (screen === "about") content = <AboutScreen onNext={() => setScreen("curriculum")} />;
   else if (screen === "curriculum") content = <CurriculumScreen onNext={() => setScreen("topics")} />;
   else if (screen === "topics")

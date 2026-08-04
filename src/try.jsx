@@ -10,6 +10,8 @@ import interviewAudio from "./videooraudio/Interviwsummery.mp4";
 import mission from "./videooraudio/mission.mp4";
 import lastcommend from "./videooraudio/last-commend-890.mp4";
 
+
+
 // ===== תמונות מסך הנושאים החדש (מ-Figma, node 1:393 "דף נושאים עידכון") =====
 // const topicsBg =
 //   "https://www.figma.com/api/mcp/asset/479cb980-4b60-4895-8e17-e4aa526bce04";
