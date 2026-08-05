@@ -3,8 +3,8 @@
 /* ⚠️ "Galacti Condensed" (כותרת מסך הנושאים) אינו זמין ב-Google Fonts.
    אם יש לך את קובץ הפונט, הוסף כאן @font-face ותחליף את font-family למטה. */
 @font-face {
-  font-family: 'Galacti Condensed';
-  src: url(fonts/egosansnarrow-regular-webfont.woff);
+  font-family: 'abraham';
+  src: url(fonts/pfennigbold-webfont.woff);
 }
 
 /* =========================================================
@@ -641,9 +641,9 @@ body {
   color: #000;
   text-align: center;
   line-height: normal;
-  font-size: 40px;
-  font-weight: 400;
-  font-family: 'Galacti Condensed', 'Heebo', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  font-family:  'Heebo', sans-serif;
   z-index: 2;
 }
 
@@ -672,7 +672,7 @@ body {
   color: #000;
   text-align: center;
   line-height: normal;
-  font-family: 'Heebo', sans-serif;
+  font-family: 'Galacti Condensed', sans-serif;
   font-size: 21.338px;
   font-weight: 600;
 }
@@ -918,9 +918,10 @@ body {
 .topic-detail-row-label {
   margin: 0;
   color: #000;
-  font-family: 'Karantina', sans-serif;
-  font-size: 28px;
   line-height: normal;
+  font-size: 23px;
+  font-weight: 600;
+  font-family:  'Heebo', sans-serif;
   left: -31%;
   position: relative;
   width: 50vw;
@@ -1079,6 +1080,7 @@ body {
   white-space: pre-line;
   line-height: 1.9;
   color: #0a1416;
+  font-family:Arial, Helvetica, sans-serif
 }
 
 /* ===== נגן אודיו מלא ===== */
@@ -1173,7 +1175,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 0;
+  top: 13px;
   width: 341px;
   height: 294px;
   z-index: 2;

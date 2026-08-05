@@ -25,6 +25,16 @@ import tenimg from "./assets/images/subtitle/tenimg.png";
 import walkimg from "./assets/images/subtitle/walkimg.png";
 import purityimg from "./assets/images/subtitle/purity.png";
 
+import bhd1 from "./assets/images/subtitle/bhd1.png";
+import col_graph from "./assets/images/subtitle/column_graph.png";
+import community from "./assets/images/subtitle/community.png";
+import flex_arm from "./assets/images/subtitle/flexed_arm.png";
+import israel_flag from "./assets/images/subtitle/israel_flag.png";
+import notebook from "./assets/images/subtitle/notebook.png";
+import stamp from "./assets/images/subtitle/stamp.png";
+import salute from "./assets/images/subtitle/salute.png";
+import shield from "./assets/images/subtitle/shield.png";
+
 
 // ===== תמונות מסך הנושאים החדש (מ-Figma, node 1:393 "דף נושאים עידכון") =====
 // const topicsBg =
