@@ -36,34 +36,22 @@ import salute from "./assets/images/subtitle/salute.png";
 import shield from "./assets/images/subtitle/shield.png";
 
 
-// ===== תמונות מסך הנושאים החדש (מ-Figma, node 1:393 "דף נושאים עידכון") =====
-// const topicsBg =
-//   "https://www.figma.com/api/mcp/asset/479cb980-4b60-4895-8e17-e4aa526bce04";
-// const topicsBottomDecor =
-//   "https://www.figma.com/api/mcp/asset/ca6fd6ec-65eb-4a64-9601-9c9dbefbe8f7";
-
+//תמונות פרופיל לכול נושא
+import profileValues from "./assets/images/profile/Frame 11.png";
+import profileMilitary from "./assets/images/profile/Frame 12.png";
+import profileLeadership from "./assets/images/profile/Frame 13.png";
+import profileGrowth from "./assets/images/profile/Frame 14.png";
+import profileSociety from "./assets/images/profile/Frame 15.png";
 
 const dotsGroup =
   "https://www.figma.com/api/mcp/asset/557565e1-7df3-4320-83e0-c4b9d910d47d";
 
 
-const halfCircleBrown =
-  "https://www.figma.com/api/mcp/asset/c5a0eaef-adda-459b-bc91-6b8c4023c83b";
-const halfCircleBrown2 =
-  "https://www.figma.com/api/mcp/asset/9a4aa6c0-85b4-455d-b874-9f776513b53a";
+// const halfCircleBrown =
+//   "./assets/images/profile/Frame 11.png";
+// const halfCircleBrown2 =
+//   "./assets/images/profile/Frame 11.png";
 
-
-
-const profileValues =
-  "https://www.figma.com/api/mcp/asset/b518b48a-799a-4f82-bcab-8f4a2a1ae71a";
-const profileMilitary =
-  "https://www.figma.com/api/mcp/asset/349e3335-0590-4c00-b506-311b8823467f";
-const profileLeadership =
-  "https://www.figma.com/api/mcp/asset/3f18a2aa-b023-4f72-a14c-d3272f9ed43f";
-const profileGrowth =
-  "https://www.figma.com/api/mcp/asset/b518b48a-799a-4f82-bcab-8f4a2a1ae71a";
-const profileSociety =
-  "https://www.figma.com/api/mcp/asset/d80e37bf-b2b4-4816-a821-0f21da541c39";
 
 // ===== תוכן המשפטים =====
 const SLIDE1_TEXTS = ["אנחנו כותבים את ההיסטוריה של עם ישראל , איזו זכות."];
@@ -662,7 +650,7 @@ const TOPICS = [
     id: "values",
     label: "ערכים",
     count: 5,
-    // profileImg: profileValues,
+    profileImg: profileValues,
     // halfCircleImg: halfCircleBrown,
     top: 294,
     left: 217,
@@ -812,7 +800,7 @@ Omribm100@gmail.com				בכבוד רב,
     id: "military",
     label: "המקצוע הצבאי",
     count: 3,
-    // profileImg: profileMilitary,
+    profileImg: profileMilitary,
     // halfCircleImg: halfCircleBrown2,
     top: 294,
     left: 42,
@@ -868,7 +856,7 @@ Omribm100@gmail.com				בכבוד רב,
     id: "leadership",
     label: "מנהיגות ופיקוד",
     count: 4,
-    // profileImg: profileLeadership,
+    profileImg: profileLeadership,
     // halfCircleImg: halfCircleBrown,
     top: 463,
     left: 42,
@@ -933,7 +921,7 @@ Omribm100@gmail.com				בכבוד רב,
     id: "growth",
     label: "פיתוח אישי",
     count: 4,
-    // profileImg: profileGrowth,
+    profileImg: profileGrowth,
     // halfCircleImg: halfCircleBrown,
     top: 463,
     left: 217,
@@ -1003,7 +991,7 @@ Top 10 למחלקה שלי ולעצמי.
     id: "society",
     label: "צבא וחברה",
     count: 5,
-    // profileImg: profileSociety,
+    profileImg: profileSociety,
     // halfCircleImg: halfCircleBrown,
     top: 636,
     left: 41,
@@ -1773,12 +1761,12 @@ function TopicBubble({ topic, onSelect }) {
         className="topic-bubble-card"
         style={{ top: preset.cardTop, height: preset.cardHeight }}
       />
-      {/* <img
+      <img
         alt=""
         className="topic-bubble-profile"
         src={profileImg}
         style={{ left: (width - profileSize) / 2, width: profileSize, height: profileSize }}
-      /> */}
+      />
       <span className="topic-bubble-label" style={{ top: preset.labelTop }}>
         {label}
       </span>
@@ -2248,7 +2236,7 @@ export default function App() {
   // הלומדה מגיעים אחריהם כרגיל). ההבדל בין ביקור ראשון לביקור
   // חוזר הוא רק אם מוצג כפתור "דלג" מיידי (allowSkipIntro).
   const handleIntroStart = () => {
-    setScreen("slide1");
+    setScreen("topics");
   };
 
   const handleIntroSlidesFinished = () => {
