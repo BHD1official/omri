@@ -3,9 +3,10 @@
 /* ⚠️ "Galacti Condensed" (כותרת מסך הנושאים) אינו זמין ב-Google Fonts.
    אם יש לך את קובץ הפונט, הוסף כאן @font-face ותחליף את font-family למטה. */
 @font-face {
-  font-family: Galacti Condensed;
+  font-family: 'Galacti Condensed';
   src: url(fonts/egosansnarrow-regular-webfont.woff);
 }
+
 /* =========================================================
    רספונסיביות גלובלית: כל העיצוב מבוסס על מסגרת פיגמה קבועה
    של 402x874. במקום לתרגם כל ערך px בקובץ הזה ל-vw/vh בנפרד
@@ -74,7 +75,7 @@ body {
   height: 100dvh;
   object-fit: cover;
   pointer-events: none;
-    z-index: -2;
+  z-index: -2;
 }
 
 /* הבמה עצמה - תמיד 402x874, רק מוקטנת/מוגדלת עם scale.
@@ -154,8 +155,7 @@ body {
   top: 682px;
   width: 466px;
   pointer-events: none;
-    z-index: 0;
-
+  z-index: 0;
 }
 
 .bg-decor-img {
@@ -193,8 +193,7 @@ body {
 }
 
 /* ===== כפתור המשך ===== */
-.next-btn,
-.intro-start-btn {
+.next-btn {
   width: 319px;
   height: 61px;
   background: #0a1416;
@@ -324,6 +323,13 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 720px;
+  width: 319px;
+  height: 61px;
+  background: #0a1416;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.4s;
 }
 
 /* =========================================================
@@ -373,10 +379,6 @@ body {
   border-radius: 20px;
   box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  /* pan-y: מאפשרים לדפדפן לגלול אנכית באופן טבעי כשלא זוהתה
-     תזוזה אופקית; ב-JS (onPointerMove) אנחנו חוסמים בעצמנו
-     (preventDefault) כשהתזוזה מזוהה כאופקית, כדי שהגלילה
-     הטבעית לא "תחטוף" את מחוות ה-swipe. */
   touch-action: pan-y;
   overscroll-behavior: contain;
 }
@@ -521,12 +523,9 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: min(300px, 84%);
-
-  /* הגדרת גובה מקסימלי שמתאים לתוך הכרטיס הלבן */
-  max-height: calc(70% - 60px); /* מנכה את הגובה שתופסים האלמנטים העליונים */
-  overflow-y: auto;              /* גלילה פנימית לטקסט בלבד */
+  max-height: calc(70% - 60px);
+  overflow-y: auto;
   overscroll-behavior: contain;
-
   color: #000;
   text-align: center;
   line-height: 1.3;
@@ -556,10 +555,8 @@ body {
   box-sizing: border-box;
   height: 70%;
   z-index: 2;
-
-  /* --- התוספות הנדרשות לגלילה ומניעת זליגה --- */
-  overflow-y: auto;     /* מאפשר גלילה אנכית כשהתוכן חורג */
-  overflow-x: hidden;   /* מונע גלילה אופקית לא רצויה */
+  overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: contain;
 }
 
@@ -646,7 +643,6 @@ body {
   line-height: normal;
   font-size: 40px;
   font-weight: 400;
-  /* פונט "Galacti Condensed" מקורי מ-Figma - הוסף @font-face אם יש לך את הקובץ */
   font-family: 'Galacti Condensed', 'Heebo', sans-serif;
   z-index: 2;
 }
@@ -681,19 +677,7 @@ body {
   font-weight: 600;
 }
 
-/* .topics2-dots {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 264px;
-  width: 40px;
-  height: 12px;
-  z-index: 2;
-} */
-
 /* ===== בועת נושא ===== */
-
-
 
 .topics2-bubble,
 .topic-bubble {
@@ -779,7 +763,6 @@ body {
   z-index: 3;
 }
 
-
 .topics2-bottom-decor {
   position: absolute;
   left: 50%;
@@ -789,7 +772,7 @@ body {
   height: 196px;
   overflow: hidden;
   pointer-events: none;
-    z-index: 1;
+  z-index: 1;
 }
 
 .topics2-bottom-decor-img {
@@ -838,28 +821,24 @@ body {
   z-index: 5;
 }
 
+/* ===== הכרטיס הפרטני ===== */
 .topic-detail-card {
- position: relative;
-    z-index: 10;
+  position: relative;
+  z-index: 10;
   width: min(378px, 90%);
-  min-height: 620px;      /* הגובה ההתחלתי */
-  max-height: 97dvh;      /* מקסימום גובה מסך */
-
-  margin: 66px auto 40px; /* נשאר תמיד באותו מקום */
-
+  min-height: 620px;
+  max-height: 97dvh;
+  height: 100vh;
+  margin: 66px auto 40px;
   background: #fefef2;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,.25);
-
   padding: 34px 18px 40px;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
-
   overflow: hidden;
-   height: 100vh;
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
 .topic-detail-handle {
@@ -879,7 +858,7 @@ body {
   color: #2f3e46;
   font-family: 'Heebo', sans-serif;
   font-weight: 700;
-  font-size: 35px;
+  font-size: 30px;
   line-height: normal;
 }
 
@@ -893,7 +872,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-
 }
 
 /* שורת תת-נושא: dir=rtl אמיתי (לא auto) כדי שהיישור לא "יתהפך" כשהתוכן מתחיל בספרות.
@@ -943,10 +921,9 @@ body {
   font-family: 'Karantina', sans-serif;
   font-size: 28px;
   line-height: normal;
-      left: -31%;
-    position: relative;
-        width: 50vw;
-
+  left: -31%;
+  position: relative;
+  width: 50vw;
 }
 
 .topic-detail-row-subtitle {
@@ -998,7 +975,7 @@ body {
   font-family: 'Heebo', sans-serif;
   font-weight: 700;
   font-size: 15px;
-    z-index: 20;
+  z-index: 20;
 }
 
 .item-title {
@@ -1096,19 +1073,12 @@ body {
   border-radius: 16px;
 }
 
+/* ===== טקסט הפרק / התוכן ===== */
 .item-body {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-
   margin-top: 16px;
-
   white-space: pre-line;
   line-height: 1.9;
-
-
-
-  
+  color: #0a1416;
 }
 
 /* ===== נגן אודיו מלא ===== */
@@ -1198,6 +1168,7 @@ body {
   border: none;
   cursor: pointer;
 }
+
 .quotes-carousel {
   position: absolute;
   left: 50%;
@@ -1231,6 +1202,7 @@ body {
 .quote-carousel-text.anim-next {
   animation: quoteSlideNext 0.35s ease;
 }
+
 .quote-carousel-text.anim-prev {
   animation: quoteSlidePrev 0.35s ease;
 }
@@ -1239,6 +1211,7 @@ body {
   from { opacity: 0; transform: translateX(calc(-50% - 26px)); }
   to { opacity: 1; transform: translateX(-50%); }
 }
+
 @keyframes quoteSlidePrev {
   from { opacity: 0; transform: translateX(calc(-50% + 26px)); }
   to { opacity: 1; transform: translateX(-50%); }
@@ -1253,6 +1226,7 @@ body {
   gap: 6px;
   z-index: 3;
 }
+
 .quote-carousel-dot {
   width: 6px;
   height: 6px;
@@ -1260,6 +1234,7 @@ body {
   background: rgba(10, 20, 22, 0.25);
   transition: all 0.25s;
 }
+
 .quote-carousel-dot.active {
   width: 16px;
   border-radius: 9999px;
@@ -1272,6 +1247,7 @@ body {
   object-fit: cover;
   border-radius: 12px;
 }
+
 .topic-detail-row-thumb--image {
   width: 72px;
   height: 72px;
@@ -1301,4 +1277,152 @@ body {
   line-height: 1;
   color: currentColor;
   pointer-events: none;
+}
+
+/* =========================================================
+   "רוח המפקד" - רשימת תתי-פרקים ומסך פרק בודד.
+   עיצוב מאותה משפחה עיצובית כמו topic-detail-card/topic-detail-row
+   (אותם פונטים, אותו כרטיס לבן-שמנת, אותה עיטור תחתון), אבל עם
+   שפה חזותית שונה מרשימת תתי-הנושאים הרגילה: כאן זו רשימה
+   אנכית "ציר-פרקים" עם מספור בפס כהה מרובע במקום כרטיסים צבעוניים
+   נפרדים עם thumbnail, כדי שיהיה ברור שזו רמת ניווט נוספת בתוך
+   תת-הנושא "רוח המפקד" ולא עוד תת-נושא רגיל.
+   ========================================================= */
+
+.spirit-list-card {
+  padding-top: 30px;
+}
+
+.spirit-chapters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.spirit-chapter-row {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 16px;
+  border-radius: 14px;
+  background: #f4f0e2;
+  border-right: 5px solid #9E6655;
+  transition: background 0.2s;
+}
+
+.spirit-chapter-row:active {
+  background: #ece5cf;
+}
+
+.spirit-chapter-row-index {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #9E6655;
+  color: #f9f9ee;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.spirit-chapter-row-label {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  color: #0a1416;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.spirit-chapter-row-arrow {
+  flex-shrink: 0;
+  color: #0a1416;
+  opacity: 0.55;
+}
+
+/* ===== מסך פרק בודד בתוך "רוח המפקד" ===== */
+.spirit-chapter-card {
+  padding-top: 34px;
+}
+
+.spirit-chapter-eyebrow {
+  margin: 0;
+  text-align: center;
+  color: #9a8f72;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.spirit-chapter-title {
+  margin-top: 4px;
+}
+
+/* ===== עטיפת הטבלה - חלק זורם מהכרטיס, בלי קופסה נפרדת ===== */
+.chapter-table-wrap {
+  width: 100%;
+  align-self: stretch;
+  box-sizing: border-box;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed #d9d2bd;
+  overflow-x: unset;
+  border-radius: 12px;
+}
+
+/* ===== הטבלה עצמה ===== */
+.chapter-table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-family: 'Heebo', sans-serif;
+  background: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+.chapter-table th,
+.chapter-table td {
+  padding: 10px 14px;
+  text-align: right;
+  border-bottom: 1px solid #e5e0d0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #0a1416;
+  word-break: break-word;
+}
+
+.chapter-table th {
+  background: #0a1416;
+  color: #f9f9ee;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.chapter-table th:first-child {
+  border-top-right-radius: 10px;
+}
+
+.chapter-table th:last-child {
+  border-top-left-radius: 10px;
+}
+
+.chapter-table tr:nth-child(even) td {
+  background: #f4f0e2;
+}
+
+.chapter-table tr:last-child td {
+  border-bottom: none;
 }
