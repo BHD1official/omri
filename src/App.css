@@ -1476,3 +1476,11 @@ body {
   border-color: #000;
   box-shadow: 0 0 0 3px rgba(0,0,0,.08);
 }
+
+.highlight-word {
+  font-weight: 900;
+  color: #222; /* אפשר לשנות לצבע שמתאים לך */
+  background: rgba(158, 102, 85, 0.12);
+  padding: 0 3px;
+  border-radius: 4px;
+}
