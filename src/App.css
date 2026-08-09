@@ -4,7 +4,7 @@
    אם יש לך את קובץ הפונט, הוסף כאן @font-face ותחליף את font-family למטה. */
 @font-face {
   font-family: 'abraham';
-  src: url(fonts/pfennigbold-webfont.woff);
+  src: url(fonts/Omri-Regular.otf);
 }
 
 /* =========================================================
@@ -919,12 +919,12 @@ body {
   margin: 0;
   color: #000;
   line-height: normal;
-  font-size: 23px;
+  font-size: 27px;
   font-weight: 600;
-  font-family:  'Heebo', sans-serif;
-  left: -31%;
+  font-family:  'abraham', sans-serif;
+  left: -30%;
   position: relative;
-  width: 50vw;
+  width: 48vw;
 }
 
 .topic-detail-row-subtitle {
@@ -948,6 +948,9 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+
+
 
 /* =========================================================
    עמוד תוכן תת-נושא בודד (שיר / סרטון / טקסט)
@@ -1244,10 +1247,12 @@ body {
 }
 
 .topic-detail-row-thumb-img {
-  width: 100%;
+  width: 110%;
   height: 100%;
   object-fit: cover;
   border-radius: 12px;
+  position: relative;
+  left:-17%;
 }
 
 .topic-detail-row-thumb--image {

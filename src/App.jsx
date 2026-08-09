@@ -35,6 +35,9 @@ import stamp from "./assets/images/subtitle/stamp.png";
 import salute from "./assets/images/subtitle/salute.png";
 import shield from "./assets/images/subtitle/shield.png";
 import podcast from "./assets/images/subtitle/podcast_mic.png";
+import unit from "./assets/images/subtitle/unit.png";
+import mountain from "./assets/images/subtitle/mountain.png";
+import num from "./assets/images/subtitle/num.png";
 
 
 //תמונות פרופיל לכול נושא
@@ -1029,7 +1032,8 @@ Top 10 למחלקה שלי ולעצמי.
 משפחה יקרה, אני אוהב אתכם מאוד, גם אם לא נהיה בקשר יומיומי או שבועי בתקופה הקרובה, דעו לכם שאתם תמיד איתי, תמיד אני חושב עליכם, תמיד אתם מלווים אותי בכל שיקול ובכל החלטה. הדבר הכי טוב שאתם יכולים להוסיף בחברה הישראלית בתקופה הקרובה זה פשוט להיות בשמחה ולחייך לאנשים ברחוב, להגיד ולהאמין שיהיה טוב, באמת, לא בצורה מנותקת, בגלל כל מה שאמרנו מקודם, מדינת ישראל היא פלא היסטורי והיא תמשיך להיות כזו.
 
 `  },
-      { id: "unity", label: "כוחנו באחדותנו", type: "text",    image: handsimg, 
+      { id: "unity", label: "כוחנו באחדותנו", type: "text",   
+         image: unit, 
             // heading: `סימולציות פיקודיות + דילמות מוסריות`,
         // date: "12.03.2008",
         body:
@@ -1054,7 +1058,7 @@ Top 10 למחלקה שלי ולעצמי.
 
 `  },
       { id: "fifthsub", label:`מהשליחות האישות לעוצמה ישראלית` ,
-         image: handsimg,
+         image: mountain,
             // heading:`מהשליחות האישות לעוצמה ישראלית`,
         // date: "12.03.2008",
         body:
@@ -2324,7 +2328,7 @@ export default function App() {
   // הלומדה מגיעים אחריהם כרגיל). ההבדל בין ביקור ראשון לביקור
   // חוזר הוא רק אם מוצג כפתור "דלג" מיידי (allowSkipIntro).
   const handleIntroStart = () => {
-    setScreen("topics");
+    setScreen("slide1");
   };
 
   const handleIntroSlidesFinished = () => {
