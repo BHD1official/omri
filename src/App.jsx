@@ -613,7 +613,7 @@ const TOPICS = [
   {
     id: "values",
     label: "ערכים",
-    count: 5,
+    count: 6,
     profileImg: profileValues,
     // halfCircleImg: halfCircleBrown,
     top: 294,
