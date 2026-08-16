@@ -3,8 +3,8 @@
 /* ⚠️ "Galacti Condensed" (כותרת מסך הנושאים) אינו זמין ב-Google Fonts.
    אם יש לך את קובץ הפונט, הוסף כאן @font-face ותחליף את font-family למטה. */
 @font-face {
-  font-family: 'abraham';
-  src: url(fonts/Omri-Regular.otf);
+  font-family: 'omri';
+  src: url(fonts/Omrifont-Regular.otf);
 }
 
 /* =========================================================
@@ -484,7 +484,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 134px;
+  top: 90px;
   width: min(339px, 84%);
   color: #000;
   text-align: center;
@@ -492,16 +492,18 @@ body {
   font-size: 35px;
   font-family: 'Heebo', sans-serif;
   font-weight: 700;
+  z-index: 3;
 }
 
 .about-divider {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 194px;
+  top: 160px;
   width: min(340px, 84%);
   height: 1px;
   background: #d9d9d9;
+  z-index: 3;
 }
 
 .about-profile-img {
@@ -531,7 +533,7 @@ body {
   line-height: 1.3;
   font-family: 'Heebo', sans-serif;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 600;
   white-space: pre-line;
   z-index: 2;
   box-sizing: border-box;
@@ -540,20 +542,20 @@ body {
 
 /* אין תמונת פרופיל במסך הלומדה, הטקסט מתחיל מיד אחרי המפריד (top 194) */
 .curriculum-text {
-  top: 200px;
+  top: 180px;
 }
 
 .about-card {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 105px;
+  top: 50px;
   width: min(378px, 90%);
   background: #fffff6;
   border-radius: 20px;
   box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
   box-sizing: border-box;
-  height: 70%;
+  height: 80%;
   z-index: 2;
   overflow-y: auto;
   overflow-x: hidden;
@@ -685,7 +687,7 @@ body {
   cursor: pointer;
   position: absolute;
   box-sizing: border-box;
-  z-index: 2;
+  z-index: 3;
 }
 
 .topic-bubble-halfcircle {
@@ -772,7 +774,7 @@ body {
   height: 196px;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 .topics2-bottom-decor-img {
@@ -783,174 +785,580 @@ body {
   max-width: none;
   height: 100%;
 }
-
 /* =========================================================
-   מסך עמוד נושא פרטני (ערכים / המקצוע הצבאי / צבא וחברה / פיתוח אישי / מנהיגות ופיקוד)
-   אותה תבנית לכל 5 העמודים בפיגמה, רק עם רקע ותוכן שונים.
+   מסך עמוד נושא פרטני
+   ערכים / המקצוע הצבאי / צבא וחברה /
+   פיתוח אישי / מנהיגות ופיקוד
    ========================================================= */
 
 .topic-detail-screen {
   padding-bottom: 60px;
 }
 
-/* קלאס זה עדיין קיים לשימוש עתידי, אך לא נטען יותר בתוך המסכים -
-   הרקע כולו עבר לשכבת app-fullscreen-bg ברמת ה-wrapper. */
-.topic-detail-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-  z-index: -10;
-}
+
+/* =========================================================
+   כפתור חזרה
+   ========================================================= */
 
 .topic-detail-back {
   all: unset;
   cursor: pointer;
+
   position: absolute;
   left: 12px;
   top: 10px;
+
   width: 49px;
   height: 49px;
+
   border-radius: 9.8px;
   background: rgba(255, 255, 255, 0.4);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 5;
+
+  z-index: 50;
 }
 
-/* ===== הכרטיס הפרטני ===== */
+
+/* =========================================================
+   הכרטיס הקרם הראשי
+   ========================================================= */
+
 .topic-detail-card {
   position: relative;
   z-index: 10;
+
   width: min(378px, 90%);
   min-height: 620px;
   max-height: 97dvh;
   height: 100vh;
+
   margin: 66px auto 40px;
+
   background: #fefef2;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+
   padding: 34px 18px 40px;
+
   box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  overflow-y: auto;
+
+  /*
+   * חשוב:
+   * הכרטיס עצמו לא גולל.
+   * אחרת הכותרת וה-divider יזוזו יחד עם התוכן.
+   */
+  overflow: visible;
 }
+
+
+/* =========================================================
+   ידית עליונה — אם תפעיל אותה בעתיד
+   ========================================================= */
 
 .topic-detail-handle {
   position: absolute;
+
   left: 50%;
   transform: translateX(-50%);
+
   top: 8px;
+
   width: 96px;
   height: 5.086px;
+
   border-radius: 6.358px;
+
   background: #aeaaaa;
 }
 
+
+/* =========================================================
+   כותרת הנושא
+   נשארת סטטית בזמן הגלילה
+   ========================================================= */
+
 .topic-detail-title {
+  flex-shrink: 0;
+
   margin: 12px 0 0;
+
   text-align: center;
+
   color: #2f3e46;
+
   font-family: 'Heebo', sans-serif;
   font-weight: 700;
+
   font-size: 30px;
   line-height: normal;
 }
 
+
+/* =========================================================
+   קו מתחת לכותרת
+   נשאר סטטי בזמן הגלילה
+   ========================================================= */
+
 .topic-detail-divider {
+  flex-shrink: 0;
+
   margin: 18px 0 20px;
+
   height: 1px;
+
   background: #d9d9d9;
 }
 
-.topic-detail-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+
+/* =========================================================
+   אזור הגלילה של רשימת התתי-נושאים
+   ========================================================= */
+
+.topic-detail-list-scroll {
+  position: relative;
+
+  flex: 1;
+  min-height: 0;
+
+  /*
+   * זה האלמנט היחיד שאחראי על הגלילה
+   */
+  overflow-y: auto;
+
+  /*
+   * מאפשר לנו לתת מקום ל-shadow
+   * של הכרטיסים מסביבם
+   */
+  overflow-x: hidden;
+
+  /*
+   * מרווח פנימי עבור ה-shadow
+   */
+  padding: 8px 14px 30px;
+
+  /*
+   * מחזיר את רוחב אזור התוכן
+   * למיקום המקורי בתוך הכרטיס
+   */
+  margin: 0 -14px;
+
+  box-sizing: border-box;
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior: contain;
+
+  /*
+   * Firefox
+   */
+  scrollbar-width: thin;
 }
 
-/* שורת תת-נושא: dir=rtl אמיתי (לא auto) כדי שהיישור לא "יתהפך" כשהתוכן מתחיל בספרות.
-   סדר ה-DOM: [מספר רקע דהוי - אבסולוטי] [טקסט - ילד ראשון => מוצג מימין ב-rtl]
-   [thumbnail - ילד אחרון => מוצג משמאל ב-rtl]. */
+
+/* =========================================================
+   הרשימה עצמה
+   ========================================================= */
+
+.topic-detail-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+  /*
+   * חשוב:
+   * אין כאן overflow.
+   * לכן הצל של הכרטיסים לא נחתך כאן.
+   */
+  overflow: visible;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   שורת תת-נושא
+   ========================================================= */
+
 .topic-detail-row {
   all: unset;
+
   cursor: pointer;
+
   position: relative;
+
   height: 85px;
+
+  flex-shrink: 0;
+
   border-radius: 20px;
-  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+
+  /*
+   * הצל המקורי שלך — נשמר.
+   */
+  box-shadow:
+    0px 4px 20px 2px rgba(0, 0, 0, 0.25);
+
   box-sizing: border-box;
+
   display: flex;
+
   align-items: center;
+
   gap: 14px;
+
+  /*
+   * חשוב:
+   * זה חותך רק את התוכן שנמצא בתוך הכרטיס עצמו,
+   * לא את ה-shadow של הכרטיס.
+   */
   overflow: hidden;
-  padding: 0 18px;
+
+  padding: 0 0px;
+
   width: 100%;
 }
 
+
+/* =========================================================
+   המספר הגדול ברקע
+   ========================================================= */
+
 .topic-detail-row-number {
   position: absolute;
+
   right: 14px;
   top: 50%;
+
   transform: translateY(-50%);
+
   font-family: 'Monomakh', serif;
+
   font-size: 50.343px;
+
   color: #2f3e46;
+
   opacity: 0.35;
+
   line-height: normal;
+
   pointer-events: none;
+
   z-index: 0;
 }
 
+
+/* =========================================================
+   אזור הטקסט של שורת התת-נושא
+   ========================================================= */
+
 .topic-detail-row-text {
   position: relative;
+
   z-index: 1;
+
   flex: 1;
+
   min-width: 0;
+
   text-align: right;
 }
 
+
+/* =========================================================
+   שם התת-נושא
+   ========================================================= */
+
 .topic-detail-row-label {
   margin: 0;
+
   color: #000;
+
   line-height: normal;
+
   font-size: 27px;
+
   font-weight: 600;
-  font-family:  'abraham', sans-serif;
-  left: -30%;
+
+  font-family: 'omri', sans-serif;
+
+  left: -33%;
+
   position: relative;
+
   width: 48vw;
 }
 
+
+/* =========================================================
+   תיאור קטן מתחת לשם
+   ========================================================= */
+
 .topic-detail-row-subtitle {
   margin: 4px 0 0;
+
   color: #777;
+
   font-family: 'Heebo', sans-serif;
+
   font-size: 10px;
+
   line-height: normal;
 }
 
+
+/* =========================================================
+   תמונה / אייקון של תת-הנושא
+   ========================================================= */
+
 .topic-detail-row-thumb {
   position: relative;
+
   z-index: 1;
+
   flex-shrink: 0;
+
   width: 48px;
   height: 48px;
+
   border-radius: 12px;
+
   background: rgba(255, 255, 255, 0.55);
+
   color: #2f3e46;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
 }
 
 
+.topic-detail-row-thumb--image {
+  overflow: hidden;
+}
 
+
+.topic-detail-row-thumb-img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+/* =========================================================
+   =========================================================
+   מסכי תוכן של תת-נושא
+   Text / Song / Video
+   =========================================================
+   ========================================================= */
+
+
+/*
+ * הכרטיס של תוכן תת-הנושא.
+ *
+ * הכותרת נשארת למעלה.
+ * גוף הטקסט מקבל את אזור הגלילה.
+ */
+
+.topic-detail-card.item-card {
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   כותרת בתוך תת-נושא
+   ========================================================= */
+
+.item-card .item-title {
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   קו בתוך תת-נושא
+   ========================================================= */
+
+.item-card .topic-detail-divider {
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   גוף הטקסט של תת-הנושא
+   ========================================================= */
+
+.item-card .item-body {
+  flex: 1;
+
+  min-height: 0;
+
+  /*
+   * עכשיו הטקסט עצמו יכול לגלול.
+   */
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  /*
+   * מקום קטן לצידי הטקסט
+   */
+  padding: 0 8px 30px;
+
+  margin: 0 -8px;
+
+  box-sizing: border-box;
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior: contain;
+
+  scrollbar-width: thin;
+}
+
+
+/* =========================================================
+   אם יש תוכן נוסף לפני הטקסט
+   ========================================================= */
+
+.item-card .item-date,
+.item-card .item-heading,
+.item-card .audio-player,
+.item-card .item-video {
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   מסך פרק "רוח המפקד"
+   ========================================================= */
+
+.spirit-list-card {
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   רשימת הפרקים
+   ========================================================= */
+
+.spirit-chapters-list {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 8px 10px 30px;
+
+  margin: 0 -10px;
+
+  box-sizing: border-box;
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior: contain;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* =========================================================
+   תוכן פרק בודד
+   ========================================================= */
+
+.spirit-chapter-card {
+  overflow: hidden;
+}
+
+
+/*
+ * גוף פרק בודד יכול לגלול.
+ */
+
+.spirit-chapter-card .item-body {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  padding: 0 8px 30px;
+
+  margin: 0 -8px;
+
+  box-sizing: border-box;
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior: contain;
+}
+
+
+/* =========================================================
+   טבלה בתוך פרק
+   ========================================================= */
+
+.spirit-chapter-card .chapter-table-wrap {
+  flex-shrink: 0;
+
+  width: 100%;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   התאמה למסכים קטנים
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .topic-detail-card {
+    width: min(378px, 90%);
+
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .topic-detail-list-scroll {
+    padding-left: 12px;
+    padding-right: 12px;
+
+    margin-left: -12px;
+    margin-right: -12px;
+  }
+
+  .topic-detail-row {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   ביטחון נגד גלילה כפולה של המסך החיצוני
+   ========================================================= */
+
+.topic-detail-screen .topic-detail-card {
+  overscroll-behavior: contain;
+}
 
 /* =========================================================
    עמוד תוכן תת-נושא בודד (שיר / סרטון / טקסט)
@@ -959,6 +1367,7 @@ body {
 .item-card {
   padding-top: 40px;
   text-align: center;
+  
 }
 
 .item-listen-btn {
@@ -1181,7 +1590,7 @@ body {
   top: 13px;
   width: 341px;
   height: 294px;
-  z-index: 2;
+  z-index: 1;
   cursor: pointer;
   touch-action: pan-y;
 }
@@ -1200,7 +1609,7 @@ body {
   text-align: center;
   line-height: normal;
   font-family: 'Heebo', sans-serif;
-  font-size: 21.338px;
+  font-size: 16.338px;
   font-weight: 600;
 }
 
@@ -1226,7 +1635,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 250px;
+  top: 260px;
   display: flex;
   gap: 6px;
   z-index: 3;
@@ -1247,16 +1656,16 @@ body {
 }
 
 .topic-detail-row-thumb-img {
-  width: 110%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 12px;
   position: relative;
-  left:-17%;
+  left:10%;
 }
 
 .topic-detail-row-thumb--image {
-  width: 72px;
+  width: 76px;
   height: 72px;
   background: transparent;
   border-radius: 16px;
@@ -1489,3 +1898,71 @@ body {
   padding: 0 3px;
   border-radius: 4px;
 }
+
+.quotes-carousel {
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* אם הילדים פנימיים חוסמים */
+.quotes-carousel * {
+  /* מונע מהילדים לחסום את אירועי העכבר של האבא */
+  pointer-events: none; 
+}
+
+.topic-detail-list-scroll {
+  flex: 1;
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: visible;
+
+  box-sizing: border-box;
+
+  /* מקום לצל של הכרטיסים */
+  padding: 8px 14px 30px;
+
+  /* מחזיר את האזור למיקום המקורי */
+  margin: 0 -14px;
+
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.item-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.item-card .item-title {
+  flex-shrink: 0;
+}
+
+.item-card .topic-detail-divider {
+  flex-shrink: 0;
+}
+
+.item-card .item-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  padding: 0 8px 30px;
+  margin: 0 -8px;
+
+  box-sizing: border-box;
+
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* 
+
+.spirit-chapter-image {
+  display: block;
+  width: min(360px, 92%);
+  height: auto;
+  margin: 28px auto 12px;
+  object-fit: contain;
+} */
