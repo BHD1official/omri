@@ -390,11 +390,11 @@ body {
   box-sizing: border-box;
   padding: 26px 22px 66px;
   color: #000;
-  text-align: right;
-  line-height: 1.4;
+  text-align: justify;
+  line-height: 1.3;
   font-family: 'Heebo', sans-serif;
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   white-space: pre-line;
   touch-action: pan-y;
 }
@@ -529,7 +529,7 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain;
   color: #000;
-  text-align: center;
+  text-align: justify;
   line-height: 1.3;
   font-family: 'Heebo', sans-serif;
   font-size: 17px;
