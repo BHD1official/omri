@@ -847,7 +847,6 @@ Omribm100@gmail.com				בכבוד רב,
     items: [
       // { id: "role-entry", label: "כניסה לתפקיד", 
       //    image: doorimg,
-
       //   type: "text" },
       { id: "procedures", label: "כניסה לתפקיד ונהלים ", 
           image: noteimg,
@@ -1138,33 +1137,94 @@ function markInstallPromptSeen() {
     // localStorage לא זמין - לא קריטי
   }
 }
-function InstallPromptModal() {
+function InstallPromptModal({ onClose, deferredPrompt, onNativeInstall }) {
+  const [device, setDevice] = useState("ios");
+  const [closeVisible, setCloseVisible] = useState(false);
+
+  useEffect(() => {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    setDevice(/android/i.test(ua) ? "android" : "ios");
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setCloseVisible(true), CLOSE_BUTTON_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleClose = () => {
+    markInstallPromptSeen();
+    onClose();
+  };
+
+  // התקנה ישירה זמינה רק באנדרואיד/כרום, ורק אחרי שהדפדפן שלח
+  // בפועל את beforeinstallprompt (זה יכול לקרות טיפה אחרי הטעינה
+  // הראשונית, ולכן חשוב שתמיד יהיה גם נתיב ידני כגיבוי).
+  const canInstallNatively = device === "android" && !!deferredPrompt;
+
+  const handlePrimaryAction = async () => {
+    if (canInstallNatively) {
+      await onNativeInstall();
+    }
+    handleClose();
+  };
+
   return (
     <div className="install-modal-overlay" dir="rtl">
       <div className="install-modal-card">
-        <p className="install-modal-title">התקנה נדרשת להמשך</p>
+        <button
+          type="button"
+          className={`install-modal-close ${closeVisible ? "visible" : ""}`}
+          onClick={handleClose}
+          disabled={!closeVisible}
+          aria-label="סגירה"
+        >
+          <X size={16} />
+        </button>
+
+        <p className="install-modal-title">לחוויית שימוש מיטבית</p>
         <p className="install-modal-subtitle">
-          כדי להיכנס ללומדה יש להוסיף אותה למסך הבית ולפתוח אותה משם
+          מומלץ להוסיף את הלומדה למסך הבית לצפייה במסך מלא
         </p>
 
-        <div className="install-modal-steps">
-          <div className="install-modal-step">
-            <span className="install-modal-step-num">1</span>
-            <span>לחצו על כפתור השיתוף בתחתית המסך</span>
+        {canInstallNatively ? (
+          <p className="install-modal-subtitle" style={{ marginTop: -6 }}>
+            לחצו על הכפתור למטה ואשרו את ההתקנה בחלון שייפתח
+          </p>
+        ) : device === "ios" ? (
+          <div className="install-modal-steps">
+            <div className="install-modal-step">
+              <span className="install-modal-step-num">1</span>
+              <span>לחצו על כפתור השיתוף בתחתית המסך</span>
+            </div>
+            <div className="install-modal-step">
+              <span className="install-modal-step-num">2</span>
+              <span>גללו ובחרו ב"הוספה למסך הבית"</span>
+            </div>
+            <div className="install-modal-step">
+              <span className="install-modal-step-num">3</span>
+              <span>אשרו בלחיצה על "הוספה"</span>
+            </div>
           </div>
-          <div className="install-modal-step">
-            <span className="install-modal-step-num">2</span>
-            <span>גללו ובחרו ב"הוספה למסך הבית"</span>
+        ) : (
+          <div className="install-modal-steps">
+            <div className="install-modal-step">
+              <span className="install-modal-step-num">1</span>
+              <span>לחצו על שלוש הנקודות בפינה</span>
+            </div>
+            <div className="install-modal-step">
+              <span className="install-modal-step-num">2</span>
+              <span>בחרו ב"התקנה" או "הוספה למסך הבית"</span>
+            </div>
+            <div className="install-modal-step">
+              <span className="install-modal-step-num">3</span>
+              <span>אשרו בלחיצה על "הוספה"</span>
+            </div>
           </div>
-          <div className="install-modal-step">
-            <span className="install-modal-step-num">3</span>
-            <span>אשרו בלחיצה על "הוספה"</span>
-          </div>
-          <div className="install-modal-step">
-            <span className="install-modal-step-num">4</span>
-            <span>פתחו את הלומדה מהאייקון שנוסף למסך הבית</span>
-          </div>
-        </div>
+        )}
+
+        <button type="button" className="install-modal-btn" onClick={handlePrimaryAction}>
+          {canInstallNatively ? "התקנה מיידית" : "המשך ללומדה"}
+        </button>
       </div>
     </div>
   );
@@ -1580,17 +1640,19 @@ function NextButton({ onClick, disabled = false, label = "המשך !" }) {
 
 // ===== מסך: פתיח =====
 function IntroScreen({ onStart }) {
-  const [showInstallPrompt] = useState(() => {
+  const [showInstallPrompt, setShowInstallPrompt] = useState(() => {
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       window.navigator.standalone;
 
     const ua = navigator.userAgent || navigator.vendor || window.opera;
+    // בדיקת iOS: iPhone / iPad / iPod, כולל אייפדים חדשים שמזהים
+    // עצמם כ-"MacIntel" עם תמיכה במגע.
     const isIOS =
       /iPad|iPhone|iPod/.test(ua) ||
       (ua.includes("Macintosh") && navigator.maxTouchPoints > 1);
 
-    return isIOS && !isStandalone;
+    return isIOS && !isStandalone && !hasSeenInstallPrompt();
   });
 
   return (
@@ -1615,10 +1677,13 @@ function IntroScreen({ onStart }) {
         <span className="next-btn-text">להתחיל !</span>
       </button>
 
-      {showInstallPrompt && <InstallPromptModal />}
+      {showInstallPrompt && (
+        <InstallPromptModal onClose={() => setShowInstallPrompt(false)} />
+      )}
     </div>
   );
 }
+
 // ===== מסך: משפט ראשון =====
 function Slide1({ onNext, allowSkip }) {
   const { displayed, progress, done, pause, resume, skip } = useTypewriter(SLIDE1_TEXTS, true);
@@ -2501,7 +2566,7 @@ export default function App() {
   // הלומדה מגיעים אחריהם כרגיל). ההבדל בין ביקור ראשון לביקור
   // חוזר הוא רק אם מוצג כפתור "דלג" מיידי (allowSkipIntro).
   const handleIntroStart = () => {
-    setScreen("slide1");
+    setScreen("topics");
   };
 
   const handleIntroSlidesFinished = () => {
