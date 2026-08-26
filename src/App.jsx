@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { ArrowLeft, ArrowRight, Headphones, Pause, Play, Tv, PenLine, Disc3, SkipBack, SkipForward } from "lucide-react";import "./App.css";
-
+import { ArrowLeft, ArrowRight, Headphones, Pause, Play, Tv, PenLine, Disc3, SkipBack, SkipForward, X } from "lucide-react";
+import "./App.css";
 // ===== תמונות (תיקיית assets) =====
 import bgImg from "./assets/images/background.png";
 import profileImgIntro from "./assets/images/profile-intro.png";
@@ -1118,6 +1118,58 @@ Omribm100@gmail.com				בכבוד רב,
   },
 ];
 
+
+
+const INSTALL_PROMPT_SEEN_KEY = "omri_install_prompt_seen";
+const CLOSE_BUTTON_DELAY_MS = 4000; // ה-X יהפוך לזמין רק אחרי 4 שניות
+
+function hasSeenInstallPrompt() {
+  try {
+    return window.localStorage.getItem(INSTALL_PROMPT_SEEN_KEY) === "1";
+  } catch (err) {
+    return false;
+  }
+}
+
+function markInstallPromptSeen() {
+  try {
+    window.localStorage.setItem(INSTALL_PROMPT_SEEN_KEY, "1");
+  } catch (err) {
+    // localStorage לא זמין - לא קריטי
+  }
+}
+function InstallPromptModal() {
+  return (
+    <div className="install-modal-overlay" dir="rtl">
+      <div className="install-modal-card">
+        <p className="install-modal-title">התקנה נדרשת להמשך</p>
+        <p className="install-modal-subtitle">
+          כדי להיכנס ללומדה יש להוסיף אותה למסך הבית ולפתוח אותה משם
+        </p>
+
+        <div className="install-modal-steps">
+          <div className="install-modal-step">
+            <span className="install-modal-step-num">1</span>
+            <span>לחצו על כפתור השיתוף בתחתית המסך</span>
+          </div>
+          <div className="install-modal-step">
+            <span className="install-modal-step-num">2</span>
+            <span>גללו ובחרו ב"הוספה למסך הבית"</span>
+          </div>
+          <div className="install-modal-step">
+            <span className="install-modal-step-num">3</span>
+            <span>אשרו בלחיצה על "הוספה"</span>
+          </div>
+          <div className="install-modal-step">
+            <span className="install-modal-step-num">4</span>
+            <span>פתחו את הלומדה מהאייקון שנוסף למסך הבית</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ===== הגדרות =====
 const TYPING_SPEED = 120;
 
@@ -1528,6 +1580,19 @@ function NextButton({ onClick, disabled = false, label = "המשך !" }) {
 
 // ===== מסך: פתיח =====
 function IntroScreen({ onStart }) {
+  const [showInstallPrompt] = useState(() => {
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone;
+
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isIOS =
+      /iPad|iPhone|iPod/.test(ua) ||
+      (ua.includes("Macintosh") && navigator.maxTouchPoints > 1);
+
+    return isIOS && !isStandalone;
+  });
+
   return (
     <div className="screen">
       <div className="intro-profile-wrap">
@@ -1549,10 +1614,11 @@ function IntroScreen({ onStart }) {
       <button onClick={onStart} className="intro-start-btn">
         <span className="next-btn-text">להתחיל !</span>
       </button>
+
+      {showInstallPrompt && <InstallPromptModal />}
     </div>
   );
 }
-
 // ===== מסך: משפט ראשון =====
 function Slide1({ onNext, allowSkip }) {
   const { displayed, progress, done, pause, resume, skip } = useTypewriter(SLIDE1_TEXTS, true);
@@ -2414,6 +2480,8 @@ export default function App() {
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [selectedChapterId, setSelectedChapterId] = useState(null);
 
+ 
+
   const selectedTopic = TOPICS.find((t) => t.id === selectedTopicId) || null;
   const selectedItem =
     (selectedTopic && selectedTopic.items.find((it) => it.id === selectedItemId)) || null;
@@ -2463,9 +2531,8 @@ export default function App() {
   const backToSpiritChapters = () => setScreen("spiritChapters");
 
   let content = null;
-
   if (screen === "intro") content = <IntroScreen onStart={handleIntroStart} />;
-  else if (screen === "slide1")
+      else if (screen === "slide1")
     content = <Slide1 onNext={() => setScreen("slide2")} allowSkip={allowSkipIntro} />;
   else if (screen === "slide2")
     content = <Slide2 onNext={handleIntroSlidesFinished} allowSkip={allowSkipIntro} />;
