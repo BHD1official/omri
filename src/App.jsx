@@ -1230,6 +1230,99 @@ function InstallPromptModal({ onClose, deferredPrompt, onNativeInstall }) {
   );
 }
 
+const TOPIC_POPUP_BUTTON_DELAY_MS = 7000; // הכפתור נהיה לחיץ רק אחרי 7 שניות
+
+function TopicIntroPopup({ onClose }) {
+  const [visible, setVisible] = useState(false);
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const closedRef = useRef(false);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setVisible(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    const enableTimer = setTimeout(() => setButtonEnabled(true), TOPIC_POPUP_BUTTON_DELAY_MS);
+    return () => clearTimeout(enableTimer);
+  }, []);
+
+  const handleClose = () => {
+    if (closedRef.current) return;
+    closedRef.current = true;
+    setVisible(false);
+    setTimeout(onClose, 400);
+  };
+
+  // הערה: הסרנו את הסגירה האוטומטית אחרי 10 שניות - עכשיו הפופ-אפ
+  // נשאר עד שלוחצים "הבנתי" (וזה אפשרי רק אחרי 7 שניות), כדי
+  // שאי אפשר יהיה "לפספס" אותו.
+
+  return (
+    <div
+      dir="rtl"
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 999,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "rgba(10, 20, 22, 0.65)",
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.4s ease",
+        pointerEvents: visible ? "auto" : "none",
+      }}
+    >
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: 24,
+          padding: "40px 28px",
+          maxWidth: 380,
+          width: "88%",
+          height: "50vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          boxShadow: "0 16px 50px rgba(0,0,0,0.3)",
+          transform: visible ? "scale(1)" : "scale(0.96)",
+          transition: "transform 0.4s ease",
+        }}
+      >
+        <p dir="auto" className="handwritingpopup">
+          כל כותרות הנושאים כתובים בכתב ידו של אומרי ז"ל
+        </p>
+        <button
+          type="button"
+          onClick={handleClose}
+          disabled={!buttonEnabled}
+          style={{
+            background: "#0a1416",
+            color: "#fff",
+            border: "none",
+            borderRadius: 999,
+            padding: "12px 32px",
+            fontSize: 16,
+            fontWeight: 600,
+            cursor: buttonEnabled ? "pointer" : "not-allowed",
+            opacity: buttonEnabled ? 1 : 0.4,
+            marginTop: 24,
+            transition: "opacity 0.3s ease",
+          }}
+        >
+          הבנתי
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
+
+
 // ===== הגדרות =====
 const TYPING_SPEED = 120;
 
@@ -1253,6 +1346,34 @@ function markIntroSlidesSeen() {
     // אם localStorage לא זמין (מצב פרטי וכו') - פשוט מתעלמים, לא קריטי
   }
 }
+
+
+// ===== זיכרון: אילו נושאים כבר הוצג עבורם פופ-אפ "כתב יד" =====
+// נשמר כאובייקט { topicId: true } ב-localStorage, כך שכל נושא
+// מסומן בנפרד, ולא חוזר על עצמו גם בביקורים עתידיים.
+// ===== זיכרון: האם המשתמש כבר ראה את פופ-אפ "כתב יד" - פעם אחת בסך הכל =====
+const TOPIC_POPUP_SEEN_KEY = "omri_topic_popup_seen";
+
+function hasSeenTopicPopup() {
+  try {
+    return window.localStorage.getItem(TOPIC_POPUP_SEEN_KEY) === "1";
+  } catch (err) {
+    return false;
+  }
+}
+
+function markTopicPopupSeen() {
+  try {
+    window.localStorage.setItem(TOPIC_POPUP_SEEN_KEY, "1");
+  } catch (err) {
+    // localStorage לא זמין - לא קריטי
+  }
+}
+
+
+const TOPIC_POPUP_AUTO_CLOSE_MS = 10000; // Fade Out אוטומטי אחרי 10 שניות
+
+
 
 // =========================================================
 // רספונסיביות גלובלית: כל העיצוב ב-CSS בנוי על מסגרת פיגמה
@@ -2029,70 +2150,62 @@ function TopicTypeIcon({ type, size = 18 }) {
 
 // ===== מסך: עמוד נושא פרטני =====
 function TopicDetailScreen({ topic, onBack, onSelectItem }) {
+  const [showTopicPopup, setShowTopicPopup] = useState(() => !hasSeenTopicPopup());
+
+  const handleCloseTopicPopup = () => {
+    markTopicPopupSeen();
+    setShowTopicPopup(false);
+  };
+
   return (
     <div className="screen screen-scroll topic-detail-screen">
       <button className="topic-detail-back" onClick={onBack} aria-label="חזרה">
-        <ArrowRight size={20} color="#0a1416" 
-            style={{ transform: "rotate(180deg)" }}
-/>
-        
+        <ArrowRight size={20} color="#0a1416" style={{ transform: "rotate(180deg)" }} />
       </button>
 
       <div className="topic-detail-card">
-        {/* <div className="topic-detail-handle" /> */}
         <p className="topic-detail-title" dir="auto">
           {topic.label}
         </p>
         <div className="topic-detail-divider" />
 
-      <div className="topic-detail-list-scroll">
-  <div className="topic-detail-list">
-    {topic.items.map((item, i) => (
-
-
-
-
-  <button
-              key={item.id}
-              type="button"
-              className="topic-detail-row"
-              style={{ background: ROW_COLORS[i % ROW_COLORS.length] }}
-              dir="rtl"
-              onClick={() => onSelectItem(item)}
-            >
-              
-              <span className="topic-detail-row-number">{String(i + 1).padStart(2, "0")}</span>
-              <div className="topic-detail-row-text">
-                <p className="topic-detail-row-label">{item.label}</p>
-                {item.subtitle && <p className="topic-detail-row-subtitle">{item.subtitle}</p>}
-              </div>
-    <span
-  className={`topic-detail-row-thumb ${item.image ? "topic-detail-row-thumb--image" : ""}`}
->
-  {item.image ? (
-    <img src={item.image} alt="" className="topic-detail-row-thumb-img" />
-  ) : (
-    <TopicTypeIcon type={item.type} />
-  )}
-</span>
-            </button>
-
-
-    ))}
-  </div>
-</div>
-        
+        <div className="topic-detail-list-scroll">
+          <div className="topic-detail-list">
+            {topic.items.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                className="topic-detail-row"
+                style={{ background: ROW_COLORS[i % ROW_COLORS.length] }}
+                dir="rtl"
+                onClick={() => onSelectItem(item)}
+              >
+                <span className="topic-detail-row-number">{String(i + 1).padStart(2, "0")}</span>
+                <div className="topic-detail-row-text">
+                  <p className="topic-detail-row-label">{item.label}</p>
+                  {item.subtitle && <p className="topic-detail-row-subtitle">{item.subtitle}</p>}
+                </div>
+                <span className={`topic-detail-row-thumb ${item.image ? "topic-detail-row-thumb--image" : ""}`}>
+                  {item.image ? (
+                    <img src={item.image} alt="" className="topic-detail-row-thumb-img" />
+                  ) : (
+                    <TopicTypeIcon type={item.type} />
+                  )}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="topics2-bottom-decor">
         <img alt="" className="topics2-bottom-decor-img" src={topic.bottomDecorImg} />
       </div>
+
+      {showTopicPopup && <TopicIntroPopup onClose={handleCloseTopicPopup} />}
     </div>
   );
 }
-
-
-
 
 
 

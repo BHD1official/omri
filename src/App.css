@@ -2083,3 +2083,9 @@ body {
   font-size: 17px;
   font-weight: 800;
 }
+.handwritingpopup {
+  font-family: 'omri', sans-serif;
+  font-size: 42px;      /* גודל סביר לפופ-אפ; אפשר לשחק עם המספר */
+  font-weight: 800;
+  line-height: 1.3;
+}
