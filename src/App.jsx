@@ -2568,6 +2568,7 @@ function CommandSpiritChaptersScreen({ topic, item, onBack, onSelectChapter }) {
 // גם כאן העיצוב מאותה משפחה עיצובית (topic-detail-card + item-body)
 // אבל עם וריאציה משלו (spirit-chapter-card) שונה מהעיצוב של שאר
 // תתי-הנושאים (item-card הרגיל).
+
 function CommandSpiritChapterScreen({ topic, item, chapter, onBack }) {
   return (
     <div className="screen screen-scroll topic-detail-screen">
@@ -2586,39 +2587,39 @@ function CommandSpiritChapterScreen({ topic, item, chapter, onBack }) {
 
         {chapter.date && <p className="item-date">{chapter.date}</p>}
 
-       <p className="item-body" dir="auto">
-  {renderHighlightedText(chapter.body)}
-</p>
-{chapter.image && (
-  <img
-    src={chapter.image}
-    alt=""
-    className="spirit-chapter-image"
-  />
-)}
+        {/* עכשיו זה בלוק אחד גולל: טקסט + תמונה + טבלה */}
+        <div className="item-body" dir="auto">
+          <p className="spirit-chapter-text">
+            {renderHighlightedText(chapter.body)}
+          </p>
 
-        {chapter.table && (
-          <div className="chapter-table-wrap" dir="rtl">
-            <table className="chapter-table">
-              <thead>
-                <tr>
-                  {chapter.table.headers.map((h, i) => (
-                    <th key={i}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {chapter.table.rows.map((row, i) => (
-                  <tr key={i}>
-                    {row.map((cell, j) => (
-                      <td key={j}>{cell}</td>
+          {chapter.image && (
+            <img src={chapter.image} alt="" className="spirit-chapter-image" />
+          )}
+
+          {chapter.table && (
+            <div className="chapter-table-wrap" dir="rtl">
+              <table className="chapter-table">
+                <thead>
+                  <tr>
+                    {chapter.table.headers.map((h, i) => (
+                      <th key={i}>{h}</th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {chapter.table.rows.map((row, i) => (
+                    <tr key={i}>
+                      {row.map((cell, j) => (
+                        <td key={j}>{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="topics2-bottom-decor">
@@ -2627,6 +2628,7 @@ function CommandSpiritChapterScreen({ topic, item, chapter, onBack }) {
     </div>
   );
 }
+
 
 // ===== מסך: רשת נושאים =====
 function TopicsScreen({ onAbout, onSelectTopic }) {
