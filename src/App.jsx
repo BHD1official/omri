@@ -2682,7 +2682,7 @@ export default function App() {
   // הלומדה מגיעים אחריהם כרגיל). ההבדל בין ביקור ראשון לביקור
   // חוזר הוא רק אם מוצג כפתור "דלג" מיידי (allowSkipIntro).
   const handleIntroStart = () => {
-    setScreen("topics");
+    setScreen("slide1");
   };
 
   const handleIntroSlidesFinished = () => {
